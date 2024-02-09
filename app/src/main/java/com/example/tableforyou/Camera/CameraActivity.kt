@@ -34,7 +34,7 @@ import java.util.concurrent.Executors
 
 class CameraActivity : ComponentActivity() {
 
-    //var photo: Uri = Uri.EMPTY
+    //lateinit var photo: Uri
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
@@ -127,7 +127,9 @@ class CameraActivity : ComponentActivity() {
                             Text("Try Again")
                         }
                         TextButton(
-                            onClick = {;this@CameraActivity.finish() }
+                            onClick = {
+                                //photo = photoUri ;
+                                this@CameraActivity.finish() }
                         ){
                             Text("Use this photo")
                         }

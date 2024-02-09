@@ -160,7 +160,7 @@ fun RestorantCard(modifier: Modifier = Modifier, res: Restorant, onClickOpenRest
                         Text("Aperto ")
 
                         var distance = 3
-                        Text("$distance km from you")
+                        Text("   $distance km from you")
                     }
 
 

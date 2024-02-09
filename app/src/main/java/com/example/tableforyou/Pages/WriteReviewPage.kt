@@ -67,7 +67,7 @@ fun WriteReviewBox(onBackClickedRev: (String) -> Unit = {}, restorant: Restorant
         ) {
             if(photoTaken) {
                 Image(
-                    painter = painterResource(id = R.drawable.pizza),//rememberImagePainter(CameraActivity()),
+                    painter = painterResource(id = R.drawable.pizza_napoli),//rememberImagePainter(CameraActivity().photo),
                     contentDescription = "img",
                     modifier = Modifier
                         .height(100.dp)
