@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "304530582549",
+    "project_id": "tableforyou-f235e",
+    "storage_bucket": "tableforyou-f235e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304530582549:android:7cefe5b2004d95b3fef21c",
+        "android_client_info": {
+          "package_name": "com.example.tableforyou"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304530582549-gi34l5kl6jdjjr0q71vvvu26720p54iu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEpLjsBLhgVz1UgyY8VOOEJeA6Ben_wek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304530582549-gi34l5kl6jdjjr0q71vvvu26720p54iu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
