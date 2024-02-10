@@ -21,26 +21,32 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
+import com.example.tableforyou.Authentication.EmailPasswordActivity
 import com.example.tableforyou.Elements.UpBar
 import com.example.tableforyou.Navigation.Home
 import com.example.tableforyou.R
 
 @Composable
-fun SettingsScreen(){
-    Settings()
+fun SettingsScreen(signOut:() -> Unit, SignOUT: ()->Unit){
+    Settings(signOut, SignOUT)
 }
 
-@Preview(showBackground = true)
+
 @Composable
-fun Settings(){
+fun Settings(
+    signOut:() -> Unit,
+    SignOUT: ()->Unit
+){
         Column(modifier = Modifier.fillMaxSize()) {
             UpBar("Settings", false, onBackClicked = { }, Home)
             Row(modifier = Modifier.padding(all = 30.dp)) {
                 Image(
-                    painter = painterResource(R.drawable.muzon),
+                    painter = if (EmailPasswordActivity().getUri()!=null){
+                        rememberAsyncImagePainter(EmailPasswordActivity().getUri())
+                    } else {painterResource(id = R.drawable.defaultimg)},
                     contentDescription = "Contact profile picture",
                     modifier = Modifier
                         // Set image size to 40 dp
@@ -54,8 +60,8 @@ fun Settings(){
                         )
                 )
                 Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-                    Text("Nome", fontSize = 25.sp)
-                    Text("Cognome", fontSize = 25.sp)
+                    Text(EmailPasswordActivity().getName(), fontSize = 25.sp)
+                    Text(EmailPasswordActivity().getMail(), fontSize = 15.sp)
 
                 }
 
@@ -104,7 +110,7 @@ fun Settings(){
                 }
                 Spacer(modifier = Modifier.padding(20.dp))
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = signOut ,
                     shape = RectangleShape,
                     modifier = Modifier.fillMaxWidth(),
                     border = BorderStroke(width = 1.dp, color = Color.Black),

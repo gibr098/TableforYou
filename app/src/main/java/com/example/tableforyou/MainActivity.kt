@@ -23,6 +23,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.tableforyou.Authentication.EmailPasswordActivity
 import com.example.tableforyou.Camera.CameraActivity
 import com.example.tableforyou.Elements.BottomNavigationBar
 import com.example.tableforyou.Navigation.AppNavHost
@@ -106,7 +107,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     openCamera = {
                         val intent = Intent(this, CameraActivity::class.java)
-                        this.startActivity(intent)})
+                        this.startActivity(intent)},
+                    signOut = {
+                        val intent = Intent(this, EmailPasswordActivity::class.java)
+                        this.startActivity(intent)
+                        EmailPasswordActivity().updatePsw("")
+                        this.finish()
+                    })
 
 
                 //MyAppR1(modifier = Modifier.fillMaxSize())
@@ -162,7 +169,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MyApp(
     modifier: Modifier = Modifier,
-    openCamera: () -> Unit
+    openCamera: () -> Unit,
+    signOut:()-> Unit
 ) {
     TableforYouTheme {
         //var currentScreen: AppDestination by remember { mutableStateOf(Home) }
@@ -189,7 +197,12 @@ fun MyApp(
             AppNavHost(
                 navController = navController,
                 modifier = Modifier.padding(padding),
-                openCamera = openCamera
+                openCamera = openCamera,
+                signIn = {},
+                GsignIn = {},
+                createAccount = {},
+                signOut = signOut,
+                SignOUT = {},
             )
 
         }

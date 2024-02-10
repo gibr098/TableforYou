@@ -5,16 +5,13 @@
       <entry key="ActivityResultLauncher">
         <State />
       </entry>
-      <entry key="CameraActivity">
-        <State />
-      </entry>
       <entry key="EmailPasswordActivity">
         <State />
       </entry>
-      <entry key="MainActivity">
+      <entry key="GoogleSignInActivity">
         <State />
       </entry>
-      <entry key="QRCodeScannerActivity">
+      <entry key="MainActivity">
         <State />
       </entry>
       <entry key="app">

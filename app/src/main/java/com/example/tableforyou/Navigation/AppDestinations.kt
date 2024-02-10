@@ -55,4 +55,22 @@ object Reservations : AppDestination {
     //override val screen: @Composable () -> Unit = { TODO() }
 }
 
+object LogIn : AppDestination {
+    //override val icon = Icons.Filled.PieChart
+    override val route = "LogIn"
+    //override val screen: @Composable () -> Unit = { SettingsScreen() }
+}
+
+object Null : AppDestination {
+    //override val icon = Icons.Filled.PieChart
+    override val route = "Null"
+    //override val screen: @Composable () -> Unit = { SettingsScreen() }
+}
+
+object CreateAccount : AppDestination {
+    //override val icon = Icons.Filled.PieChart
+    override val route = "CreateAccount"
+    //override val screen: @Composable () -> Unit = { SettingsScreen() }
+}
+
 val BottomNavigationBarScreens = listOf(Home, Favorite, Reservations, Settings)
