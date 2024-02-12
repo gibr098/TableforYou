@@ -1,5 +1,6 @@
 package com.example.tableforyou.Authentication
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -26,6 +27,7 @@ import com.example.tableforyou.ui.theme.TableforYouTheme
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 
 
@@ -39,7 +41,6 @@ var Profileimg by mutableStateOf(Uri.parse("android.resource://com.example.table
 
 class EmailPasswordActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
-
     fun updateMail(input: String) { mail = input }
     fun updatePsw(input: String) { password = input }
     fun updateName(input: String) { name = input }
@@ -63,11 +64,29 @@ class EmailPasswordActivity : ComponentActivity() {
             }
         }
 
+    val user = Firebase.auth.currentUser
+    fun getUserName(): String{
+        if (user != null) {
+            return user.displayName!!
+        } else {
+            return "Anonimous"
+        }
+    }
+    fun getUserImg(): Uri{
+        if (user != null) {
+            return Profileimg
+        } else {
+            return Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.defaultimg)
+        }
+    }
 
-
-
-
-
+    fun getUserMail(): String{
+        if (user != null) {
+            return user.email!!
+        }else{
+            return ""
+        }
+    }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,9 +98,22 @@ class EmailPasswordActivity : ComponentActivity() {
                        GsignIn = {
                            val intent = Intent(this, GoogleSignInActivity::class.java)
                            EmailPasswordActivity().baseContext.startActivity(intent)},
-                   createAccount = { this.CreateAccount(mail, password);password="" },
+                   createAccount = {
+                       this.CreateAccount(mail, password);password=""
+                       val profileUpdates = userProfileChangeRequest {
+                           displayName = name
+                           photoUri = Profileimg
+                       }
+                       user!!.updateProfile(profileUpdates)
+                           .addOnCompleteListener { task ->
+                               if (task.isSuccessful) {
+                                   Log.d(TAG, "User profile updated.")
+                               }
+                           }
+
+                                   },
                    SignOUT = { password=""; signOut()},
-                   pickPhoto={ pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))}
+                   pickPhoto={ pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo)); }
 
                    )
 
@@ -166,7 +198,7 @@ class EmailPasswordActivity : ComponentActivity() {
                     Thread.sleep(1500)
                     val intent = Intent(this, MainActivity::class.java)
                     this.startActivity(intent)
-                    this.finish()
+                    //this.finish()
 
                     //updateUI(user)
                 } else {
@@ -210,6 +242,7 @@ class EmailPasswordActivity : ComponentActivity() {
             val uid = it.uid
 
         }
+
     }
 }
 
@@ -248,19 +281,19 @@ fun AuthApp(
                 navController.navigateSingleTopTo(newScreen.route)}
         )*/
 
-            AppNavHost2(
-                navController = navController,
-                modifier = Modifier.padding(all=10.dp),
-                openCamera = {},
-                signIn = signIn,
-                GsignIn = GsignIn,
-                createAccount = createAccount,
-                SignOUT = SignOUT,
-                pickPhoto=pickPhoto
-            )
+        AppNavHost2(
+            navController = navController,
+            modifier = Modifier.padding(all=10.dp),
+            openCamera = {},
+            signIn = signIn,
+            GsignIn = GsignIn,
+            createAccount = createAccount,
+            SignOUT = SignOUT,
+            pickPhoto=pickPhoto
+        )
 
-        }
     }
+}
 
 
 

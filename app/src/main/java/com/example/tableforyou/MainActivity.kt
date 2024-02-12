@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -25,17 +27,21 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.tableforyou.Authentication.EmailPasswordActivity
 import com.example.tableforyou.Camera.CameraActivity
+import com.example.tableforyou.Data.MyData
+import com.example.tableforyou.Data.RestorantList
 import com.example.tableforyou.Elements.BottomNavigationBar
 import com.example.tableforyou.Navigation.AppNavHost
 import com.example.tableforyou.Navigation.BottomNavigationBarScreens
 import com.example.tableforyou.Navigation.Home
 import com.example.tableforyou.Navigation.navigateSingleTopTo
+import com.example.tableforyou.Pages.imageAdded
+import com.example.tableforyou.Pages.photoTaken
 import com.example.tableforyou.ui.theme.TableforYouTheme
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-
+var photorev by mutableStateOf(Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.defaultimg))
 class MainActivity : ComponentActivity() {
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
@@ -44,6 +50,22 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var photoUri: Uri
     private var shouldShowPhoto: MutableState<Boolean> = mutableStateOf(false)
+
+    val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            // Callback is invoked after the user selects a media item or closes the
+            // photo picker.
+            if (uri != null) {
+                Log.d("PhotoPicker", "Selected URI: $uri")
+                photorev = uri
+            } else {
+                Log.d("PhotoPicker", "No media selected")
+            }
+        }
+
+    fun getImagerev():Uri{
+        return photorev
+    }
 
 
 
@@ -113,7 +135,9 @@ class MainActivity : ComponentActivity() {
                         this.startActivity(intent)
                         EmailPasswordActivity().updatePsw("")
                         this.finish()
-                    })
+                    },
+                    addImage = { pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo));imageAdded =true; photoTaken =false}
+                    )
 
 
                 //MyAppR1(modifier = Modifier.fillMaxSize())
@@ -159,9 +183,17 @@ class MainActivity : ComponentActivity() {
 
         outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
+
+        for (i in 1..4 ) {
+            MyData().writeRestorant(RestorantList.list[i], "Restorant-$i")
+        }
+
+
+
+
+
     }
 }
-
 
 
 
@@ -170,7 +202,8 @@ class MainActivity : ComponentActivity() {
 fun MyApp(
     modifier: Modifier = Modifier,
     openCamera: () -> Unit,
-    signOut:()-> Unit
+    signOut:()-> Unit,
+    addImage: ()-> Unit
 ) {
     TableforYouTheme {
         //var currentScreen: AppDestination by remember { mutableStateOf(Home) }
@@ -203,6 +236,7 @@ fun MyApp(
                 createAccount = {},
                 signOut = signOut,
                 SignOUT = {},
+                addImage = addImage
             )
 
         }

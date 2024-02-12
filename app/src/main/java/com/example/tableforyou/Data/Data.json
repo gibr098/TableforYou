@@ -1,0 +1,57 @@
+
+
+{"Restorants": [
+{"Restorant 1": {
+  "nome": "Pizzeria da Ciro",
+  "type": "Pizzeria",
+  "address": "Via bella Napoli 18",
+  "rank": 4,
+  "menu": {
+    "plates": [
+      {"name": "Margherita", "price": "5$", "description": "Descrizione piatto"},
+      {"name": "Diavola", "price": "7$", "description": "Descrizione piatto"},
+      {"name": "Capricciosa", "price": "8$", "description": "Descrizione piatto"}
+    ]
+  },
+  "room": {
+    "tables": [
+      {"number": 1, "seats": 8, "reserved": [{"res":false, "data": "12/10/1998"}]},
+      {"number": 2, "seats": 10, "reserved": [{"res":true, "data": "12/03/2024"}]}
+    ]
+  },
+  "Page": {
+    "reviews": [
+      {"user": "Marco", "note": "I like this pizzeria", "vote": 4,"img": ""},
+      {"user": "Mario", "note": "I love this pizzeria", "vote": 5,"img": ""},
+      {"user": "Maria", "note": "Not good", "vote": 2,"img": ""}
+    ]
+  }
+}},
+
+{"Restorant 2": {
+  "nome": "Pizzeria da Ciro",
+  "type": "Pizzeria",
+  "address": "Via bella Napoli 18",
+  "rank": 4,
+  "menu": {
+    "plates": [
+      {"name": "Margherita", "price": "5$", "description": "Descrizione piatto"},
+      {"name": "Diavola", "price": "7$", "description": "Descrizione piatto"},
+      {"name": "Capricciosa", "price": "8$", "description": "Descrizione piatto"}
+    ]
+  },
+  "room": {
+    "tables": [
+      {"number": 1, "seats": 8, "reserved": [{"res":false, "data": "12/10/1998"}]},
+      {"number": 2, "seats": 10, "reserved": [{"res":true, "data": "12/03/2024"}]}
+    ]
+  },
+  "Page": {
+    "reviews": [
+      {"user": "Marco", "note": "I like this pizzeria", "vote": 4,"img": ""},
+      {"user": "Mario", "note": "I love this pizzeria", "vote": 5,"img": ""},
+      {"user": "Maria", "note": "Not good", "vote": 2,"img": ""}
+    ]
+  }
+}}
+  ]}

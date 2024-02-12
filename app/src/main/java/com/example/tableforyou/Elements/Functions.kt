@@ -1,5 +1,6 @@
 package com.example.tableforyou.Elements
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Data.Review
@@ -24,7 +25,7 @@ fun computerank(reviews: List<Review>) : Int {
 }
 
 @Composable
-fun completeReview(img: Int?, note: String, vote: Int, user: User){
+fun completeReview(img: Uri?, note: String, vote: Int, user: User){
     val newRev = Review(user,note,vote,img)
     OpenedReviewCard(
         onDismissRequest = { /*TODO*/ },

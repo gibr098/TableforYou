@@ -38,6 +38,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import coil.compose.rememberAsyncImagePainter
 import com.example.tableforyou.Data.Review
 
 @Composable
@@ -202,7 +203,7 @@ fun OpenedReviewCard(
                         )
                         if (review.img != null) {
                             Image(
-                                painter = painterResource(id = review.img!!),
+                                painter = rememberAsyncImagePainter(model = review.img),//painterResource(id = review.img!!),
                                 contentDescription = imageDescription,
                                 contentScale = ContentScale.Fit,
                                 modifier = Modifier

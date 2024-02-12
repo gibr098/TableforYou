@@ -20,14 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.tableforyou.Authentication.EmailPasswordActivity
 import com.example.tableforyou.Elements.UpBar
 import com.example.tableforyou.Navigation.Home
-import com.example.tableforyou.R
 
 @Composable
 fun SettingsScreen(signOut:() -> Unit, SignOUT: ()->Unit){
@@ -44,9 +42,12 @@ fun Settings(
             UpBar("Settings", false, onBackClicked = { }, Home)
             Row(modifier = Modifier.padding(all = 30.dp)) {
                 Image(
-                    painter = if (EmailPasswordActivity().getUri()!=null){
-                        rememberAsyncImagePainter(EmailPasswordActivity().getUri())
-                    } else {painterResource(id = R.drawable.defaultimg)},
+                    painter = rememberAsyncImagePainter(EmailPasswordActivity().getUri()),
+
+                    /*
+                    painter = if (EmailPasswordActivity().getUserImg()!=null){
+                        rememberAsyncImagePainter(EmailPasswordActivity().getUserImg())
+                    } else {painterResource(id = R.drawable.defaultimg)},*/
                     contentDescription = "Contact profile picture",
                     modifier = Modifier
                         // Set image size to 40 dp

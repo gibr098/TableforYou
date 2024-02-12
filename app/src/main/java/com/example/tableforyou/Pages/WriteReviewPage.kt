@@ -18,15 +18,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import com.example.tableforyou.Camera.CameraActivity
 import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Data.RestorantList
-import com.example.tableforyou.Data.Users
 import com.example.tableforyou.Elements.ReviewStarsClickable
 import com.example.tableforyou.Elements.UpBarRev
-import com.example.tableforyou.Elements.completeReview
-import com.example.tableforyou.R
+import com.example.tableforyou.MainActivity
 
 
 @Composable
@@ -35,18 +34,25 @@ fun WriteReviewPage(
     //restorant: Restorant,
     openCamera: () -> Unit,
     wrpId: String? = RestorantList.list.first().name,
+    addImage:()->Unit
 ){
     val restorant = remember(wrpId) { RestorantList.getRestorant(wrpId) }
-        WriteReviewBox(onBackClickedRev = onBackClickedRev, restorant, openCamera)
+        WriteReviewBox(onBackClickedRev = onBackClickedRev, restorant, openCamera,addImage)
 }
 
-
+var photoTaken by  mutableStateOf(false)
+var imageAdded by  mutableStateOf(false)
 @Composable
-fun WriteReviewBox(onBackClickedRev: (String) -> Unit = {}, restorant: Restorant, openCamera: () -> Unit) {
+fun WriteReviewBox(
+    onBackClickedRev: (String) -> Unit = {},
+    restorant: Restorant,
+    openCamera: () -> Unit,
+    addImage: () -> Unit
+    ) {
     var text by remember { mutableStateOf("") }
     var vote by remember { mutableStateOf(0) }
     var rev by remember { mutableStateOf(false) }
-    var photoTaken by remember { mutableStateOf(true) }
+
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -65,21 +71,13 @@ fun WriteReviewBox(onBackClickedRev: (String) -> Unit = {}, restorant: Restorant
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
-            if(photoTaken) {
-                Image(
-                    painter = painterResource(id = R.drawable.pizza_napoli),//rememberImagePainter(CameraActivity().photo),
-                    contentDescription = "img",
-                    modifier = Modifier
-                        .height(100.dp)
-                        .width(100.dp)
-                )
-            }
+
             TextButton(onClick = openCamera) {
                 Text("Take a photo")
 
             }
-            TextButton(onClick = { /*TODO*/ }) {
-                Text("Add Image")
+            TextButton(onClick = addImage) {
+                Text("Take Image from gallery")
             }
             TextButton(
                 onClick = { rev=true },
@@ -88,11 +86,34 @@ fun WriteReviewBox(onBackClickedRev: (String) -> Unit = {}, restorant: Restorant
 
                 Text("Confirm")
             }
+            /*
             if(rev){
-                completeReview(img = null, note = text, vote = vote, user = Users.list[0])
-            }
+                var i = CameraActivity().getPhotorev()
+                if(photoTaken) i = CameraActivity().getPhotorev()
+                else if (imageAdded) i = MainActivity().getImagerev()
+                completeReview(img = i  ,
+                    note = text, vote = vote, user = Users.list[0])
+            }*/
 
 
+        }
+        if(photoTaken) {
+            Image(
+                painter = rememberAsyncImagePainter(CameraActivity().getPhotorev()),
+                contentDescription = "img",
+                modifier = Modifier
+                    .height(100.dp)
+                    .width(100.dp)
+            )
+        }
+        if(imageAdded) {
+            Image(
+                painter = rememberAsyncImagePainter(MainActivity().getImagerev()),
+                contentDescription = "img",
+                modifier = Modifier
+                    .height(100.dp)
+                    .width(100.dp)
+            )
         }
     }
 }

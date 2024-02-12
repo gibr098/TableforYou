@@ -1,5 +1,6 @@
 package com.example.tableforyou.Data
 
+import android.net.Uri
 import com.example.tableforyou.Elements.computerank
 import com.example.tableforyou.R
 
@@ -155,13 +156,13 @@ object PizzeriaReviews {
             user = Users.list[0],
             note = "Very good pizzeria on the center of Naples. Great choice of pizzas and very good prices. The chef is amazing and very funny. I've taken the most famous pizza of naplese the Marinana",
             vote = 5,
-            img = R.drawable.pizza_napoli
+            img = Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.pizza_napoli)
         ),
         Review(
             user = Users.list[1],
             note = "I like Diavola very much",
             vote = 4,
-            img = R.drawable.diavola
+            img = Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.diavola)
         ),
         Review(
             user = Users.list[2],
@@ -285,9 +286,11 @@ object MenuTrattoria {
     )
 }
 
+
+
 //val r1: Restorant = RestorantList.list[0]
 object RestorantList{
-    val list : List<Restorant> = listOf(
+    val list : MutableList<Restorant> = mutableListOf(
         Restorant(
             name ="Pizzeria da ciro",
             tipo = "Pizzeria",
@@ -356,6 +359,8 @@ object RestorantList{
         return list.first { it.name == restorantName }
     }
 }
+
+
 
 object FavoriteList{
     val list : List<Restorant> = listOf(

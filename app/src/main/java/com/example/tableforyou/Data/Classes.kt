@@ -1,5 +1,7 @@
 package com.example.tableforyou.Data
 
+import android.net.Uri
+
 
 data class User(
     val name: String,
@@ -9,7 +11,7 @@ data class User(
     val reviews: List<Review>
 )
 
-data class Review (val user: User, val note: String, val vote: Int, val img: Int?)
+data class Review (val user: User, val note: String, val vote: Int, val img: Uri?)
 
 data class Restorant(
     val name: String,

@@ -23,7 +23,8 @@ fun AppNavHost(
     GsignIn: () -> Unit,
     createAccount: () -> Unit,
     signOut: ()-> Unit,
-    SignOUT: ()->Unit
+    SignOUT: ()->Unit,
+    addImage:()->Unit
 ){
 
     NavHost(
@@ -68,6 +69,7 @@ fun AppNavHost(
             navController.navigateToSingleRestorant(restorantId)},
                 //restorant = RestorantList.getRestorant(wrp_restorantId)
                 openCamera = openCamera,
+                addImage = addImage
 
 
             )
@@ -184,6 +186,7 @@ fun AppNavHost2(
                     navController.navigateToSingleRestorant(restorantId)},
                 //restorant = RestorantList.getRestorant(wrp_restorantId)
                 openCamera = openCamera,
+                addImage={}
 
 
                 )

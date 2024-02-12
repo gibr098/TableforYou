@@ -21,20 +21,21 @@ import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.example.tableforyou.Elements.UpBar
 import com.example.tableforyou.Navigation.Home
+import com.example.tableforyou.Pages.imageAdded
+import com.example.tableforyou.Pages.photoTaken
 import com.example.tableforyou.R
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-
-
+//var photo by mutableStateOf(Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.defaultimg))
+lateinit var photo:Uri
 class CameraActivity : ComponentActivity() {
 
-    //lateinit var photo: Uri
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
@@ -53,6 +54,10 @@ class CameraActivity : ComponentActivity() {
         } else {
             Log.i("kilo", "Permission denied")
         }
+    }
+
+    fun getPhotorev():Uri{
+        return photo
     }
 
     private fun requestCameraPermission() {
@@ -116,7 +121,7 @@ class CameraActivity : ComponentActivity() {
                 Column() {
                     UpBar(titolo = "", back = true, onBackClicked = {this@CameraActivity.finish()}, dest = Home)
                     Image(
-                        painter = rememberImagePainter(photoUri),
+                        painter = rememberAsyncImagePainter(photoUri),
                         contentDescription = null,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -128,7 +133,9 @@ class CameraActivity : ComponentActivity() {
                         }
                         TextButton(
                             onClick = {
-                                //photo = photoUri ;
+                                photoTaken=true;
+                                imageAdded=false;
+                                photo = photoUri ;
                                 this@CameraActivity.finish() }
                         ){
                             Text("Use this photo")
