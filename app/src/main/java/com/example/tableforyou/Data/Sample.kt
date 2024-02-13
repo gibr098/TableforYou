@@ -1,16 +1,10 @@
 package com.example.tableforyou.Data
 
-import android.net.Uri
 import com.example.tableforyou.Elements.computerank
 import com.example.tableforyou.R
 
 val muz = R.drawable.muzon
 val gas = R.drawable.axel
-
-object  Axel{
-    val name = "Axel"
-    val img = R.drawable.axel
-}
 
 object Users {
     val list : List<User> = listOf(
@@ -121,31 +115,31 @@ object TrattoriaReviews {
             user = Users.list[2],
             note = "I love this trattoria",
             vote = 5,
-            img = null,
+            img = "",
         ),
         Review(
             user = Users.list[1],
             note = "Carbonara is the food fo the gods",
             vote = 5,
-            img = null,
+            img = "",
         ),
         Review(
             user = Users.list[0],
             note = "Very good restorant , but the service is very slow",
             vote = 3,
-            img = null,
+            img = "",
         ),
         Review(
             user = Users.list[0],
             note = "Very good restorant , but the service is very slow",
             vote = 3,
-            img = null,
+            img = "",
         ),
         Review(
             user = Users.list[1],
             note = "Carbonara is the food fo the gods",
             vote = 5,
-            img = null,
+            img = "",
         ),
     )
 }
@@ -156,31 +150,31 @@ object PizzeriaReviews {
             user = Users.list[0],
             note = "Very good pizzeria on the center of Naples. Great choice of pizzas and very good prices. The chef is amazing and very funny. I've taken the most famous pizza of naplese the Marinana",
             vote = 5,
-            img = Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.pizza_napoli)
+            img = "android.resource://com.example.tableforyou/"+R.drawable.pizza_napoli
         ),
         Review(
             user = Users.list[1],
             note = "I like Diavola very much",
             vote = 4,
-            img = Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.diavola)
+            img = "android.resource://com.example.tableforyou/"+ R.drawable.diavola //Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.diavola)
         ),
         Review(
             user = Users.list[2],
             note = "I don't like the pizza of this restorant",
             vote = 3,
-            img = null,
+            img = "",
         ),
         Review(
             user = Users.list[2],
             note = "I don't like the pizza of this restorant",
             vote = 1,
-            img = null,
+            img = "",
         ),
         Review(
             user = Users.list[2],
             note = "I don't like the pizza of this restorant",
             vote = 1,
-            img = null,
+            img = "",
         )
     )
 }
@@ -254,12 +248,6 @@ val menupizza=listOf(
 
 )
 
-val menutrattoria=listOf(
-    "Carbonara",
-    "Amatriciana",
-    "Cacio e pepe",
-    "Gricia"
-)
 
 object MenuTrattoria {
     val list : List<Plate> = listOf(
@@ -293,7 +281,7 @@ object MenuTrattoria {
 object RestorantList{
     val list : MutableList<Restorant> = mutableListOf(
         Restorant(
-            name ="Pizzeria da ciro",
+            name ="Pizzeria da Ciro",
             tipo = "Pizzeria",
             via = "via bella napoli 34",
             logo = R.drawable.muzon,
@@ -301,7 +289,7 @@ object RestorantList{
             menu = MenuPizzeria.list,
             reviews = PizzeriaReviews.list,
             rank = computerank(PizzeriaReviews.list),
-            tables = PizzeriaTables.list
+            tables = listOf()//PizzeriaTables.list
         ),
         Restorant(
             name ="Il picchio rosso",
@@ -359,10 +347,6 @@ object RestorantList{
     fun getRestorant(restorantName: String?): Restorant {
         return list.first { it.name == restorantName }
     }
-}
-
-object RestorantList1{
-    var list: MutableList<Restorant> = mutableListOf()
 }
 
 

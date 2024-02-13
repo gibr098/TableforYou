@@ -1,6 +1,5 @@
 package com.example.tableforyou.Pages
 
-import android.view.MenuItem
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -39,8 +38,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tableforyou.Data.Plate
+import com.example.tableforyou.Data.RISTORANTI
+import com.example.tableforyou.Data.RISTORANTI.RISTORANTIDADB
 import com.example.tableforyou.Data.Restorant
-import com.example.tableforyou.Data.RestorantList
 import com.example.tableforyou.Elements.FavoriteButton
 import com.example.tableforyou.Elements.ReservationScreen
 import com.example.tableforyou.Elements.RestorantNavigationBar
@@ -56,13 +56,14 @@ import com.example.tableforyou.ui.theme.TableforYouTheme
 @Composable
 fun RestorantPageScreen(
     modifier: Modifier = Modifier,
-    restorantId: String? = RestorantList.list.first().name,
+    restorantId: String? = RISTORANTIDADB[0].name,//RestorantList.list.first().name,
     onBackClicked: (AppDestination) -> Unit,
     onButtonClicked: (String) -> Unit = {},
     openCamera: () -> Unit
 ){
 
-    val restorant = remember(restorantId) { RestorantList.getRestorant(restorantId) }
+    //val restorant = remember(restorantId) { RestorantList.getRestorant(restorantId) }
+    val restorant = remember(restorantId) { RISTORANTI.getRes(restorantId) }
     Column {
         UpBar(titolo = "", true, onBackClicked = onBackClicked, Home)
         RestorantScreen(restorant, openCamera, onButtonClicked)

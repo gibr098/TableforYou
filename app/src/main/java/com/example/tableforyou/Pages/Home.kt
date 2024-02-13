@@ -28,11 +28,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import com.example.tableforyou.Data.RISTORANTI.RISTORANTIDADB
 import com.example.tableforyou.Data.Restorant
-import com.example.tableforyou.Data.RestorantList
 import com.example.tableforyou.Elements.FavoriteButton
 import com.example.tableforyou.Elements.RestorantRankStars
 import com.example.tableforyou.Elements.SearchBar
+
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, onClickOpenRestorant: (String) -> Unit = {}){
@@ -45,7 +46,8 @@ fun HomeScreen(modifier: Modifier = Modifier, onClickOpenRestorant: (String) -> 
 
 @Composable
 fun RestorantCardColumn(modifier: Modifier = Modifier,onClickOpenRestorant: (String) -> Unit = {}) {
-    Restorants(RestorantList.list, onClickOpenRestorant)
+    //Restorants(RestorantList.list, onClickOpenRestorant)
+    Restorants(RISTORANTIDADB, onClickOpenRestorant)
 }
 
 @Composable
@@ -159,8 +161,9 @@ fun RestorantCard(modifier: Modifier = Modifier, res: Restorant, onClickOpenRest
 
                         Text("Aperto ")
 
+                        /*
                         var distance = 3
-                        Text("   $distance km from you")
+                        Text("   $distance km from you")*/
                     }
 
 

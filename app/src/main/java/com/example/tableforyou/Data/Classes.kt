@@ -1,7 +1,5 @@
 package com.example.tableforyou.Data
 
-import android.net.Uri
-
 //import com.google.common.collect.Table
 
 data class User(
@@ -16,7 +14,7 @@ data class Review (
     val user: User = User(),
     val note: String = "",
     val vote: Int = 0,
-    val img: Uri? = Uri.EMPTY
+    val img: String? = ""
 )
 
 

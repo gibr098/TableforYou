@@ -1,5 +1,8 @@
 package com.example.tableforyou.Data
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.example.tableforyou.R
 import com.google.firebase.Firebase
 import com.google.firebase.database.DatabaseReference
@@ -32,7 +35,7 @@ class MyData {
         database.child("usersProva").child(userId).setValue(user)
     }
 
-    fun writeRestorant(restorant: Restorant) {
+    fun writeRestorant(obj: Any, child: String) {
         database = Firebase
             .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
             .reference
@@ -52,10 +55,19 @@ class MyData {
             5,
             tables = listOf()
         )
-        database.child("Restorant1").setValue(restorantv)
+
+        database.child("RESTORANTS").child(child).setValue(obj)
+
 
     }
 
+}
+
+object RISTORANTI {
+    var RISTORANTIDADB by mutableStateOf(RestorantList.list)
+    fun getRes(restorantName: String?): Restorant {
+        return RISTORANTIDADB.first { it.name == restorantName }
+    }
 }
 
 /*

@@ -1,5 +1,6 @@
 package com.example.tableforyou.Elements
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -203,7 +204,7 @@ fun OpenedReviewCard(
                         )
                         if (review.img != null) {
                             Image(
-                                painter = rememberAsyncImagePainter(model = review.img),//painterResource(id = review.img!!),
+                                painter = rememberAsyncImagePainter(model = Uri.parse(review.img)),//painterResource(id = review.img!!),
                                 contentDescription = imageDescription,
                                 contentScale = ContentScale.Fit,
                                 modifier = Modifier
