@@ -1,9 +1,64 @@
 package com.example.tableforyou.Data
 
-import android.net.Uri
-import com.example.tableforyou.Elements.computerank
 import com.example.tableforyou.R
+import com.google.firebase.Firebase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.database
 
+
+class MyData {
+    // Write a message to the database
+    //val database = Firebase
+     //.database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
+    //val database = Firebase.database
+    //val myRef = database.getReference("message")
+
+    private lateinit var database: DatabaseReference
+
+
+    fun writeNewUser(userId: String, name: String) {
+        database = Firebase
+            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
+            .reference
+
+        val user = User(
+            name = name,
+            profile_img = R.drawable.muzon,
+            preferred = listOf(),
+            reservations = listOf(),
+            reviews = listOf(),
+        )
+
+        database.child("usersProva").child(userId).setValue(user)
+    }
+
+    fun writeRestorant(restorant: Restorant) {
+        database = Firebase
+            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
+            .reference
+
+        val restorantv = Restorant(
+            "La stella Marina",
+            "Ristopescheria",
+            "via Bacoli 1",
+            2131165375,
+            2131165283,
+            menu = listOf( Plate(
+                name = "Risotto",
+                price = 9,
+                description = "Risotto ai frutti di mare"
+            )),
+            reviews = listOf(Review(Users.list[1],"very good",5,img = null)),
+            5,
+            tables = listOf()
+        )
+        database.child("Restorant1").setValue(restorantv)
+
+    }
+
+}
+
+/*
 val muz = R.drawable.muzon
 val gas = R.drawable.axel
 
@@ -286,12 +341,9 @@ object MenuTrattoria {
     )
 }
 
-
-
 //val r1: Restorant = RestorantList.list[0]
-
 object RestorantList{
-    val list : MutableList<Restorant> = mutableListOf(
+    val list : List<Restorant> = listOf(
         Restorant(
             name ="Pizzeria da ciro",
             tipo = "Pizzeria",
@@ -361,12 +413,6 @@ object RestorantList{
     }
 }
 
-object RestorantList1{
-    var list: MutableList<Restorant> = mutableListOf()
-}
-
-
-
 object FavoriteList{
     val list : List<Restorant> = listOf(
         Restorant(
@@ -396,7 +442,7 @@ object FavoriteList{
     )
 
 }
-
+*/
 
 
 

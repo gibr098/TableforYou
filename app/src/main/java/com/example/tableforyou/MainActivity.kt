@@ -28,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tableforyou.Authentication.EmailPasswordActivity
 import com.example.tableforyou.Camera.CameraActivity
 import com.example.tableforyou.Data.MyData
+import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Data.RestorantList
 import com.example.tableforyou.Elements.BottomNavigationBar
 import com.example.tableforyou.Navigation.AppNavHost
@@ -37,11 +38,21 @@ import com.example.tableforyou.Navigation.navigateSingleTopTo
 import com.example.tableforyou.Pages.imageAdded
 import com.example.tableforyou.Pages.photoTaken
 import com.example.tableforyou.ui.theme.TableforYouTheme
+import com.google.firebase.Firebase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.database
+import com.google.firebase.database.getValue
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 var photorev by mutableStateOf(Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.defaultimg))
+
+private lateinit var database: DatabaseReference
+
 class MainActivity : ComponentActivity() {
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
@@ -184,9 +195,51 @@ class MainActivity : ComponentActivity() {
         outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
 
+        /*
         for (i in 1..4 ) {
             MyData().writeRestorant(RestorantList.list[i], "Restorant-$i")
-        }
+        }*/
+        MyData().writeRestorant(RestorantList.list[1])
+
+        database = Firebase
+            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("Restorant1")
+        /*
+        fun addPostEventListener(resReference: DatabaseReference) {
+            val resListener = object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    // Get Post object and use the values to update the UI
+                    val res = dataSnapshot.getValue<Restorant>()
+                    Log.w("mydata", "value get from the db: $res")
+                    // ...
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Getting Post failed, log a message
+                    Log.w("mydata", "loadPost:onCancelled", databaseError.toException())
+                }
+            }
+            resReference.addValueEventListener(resListener)
+        }*/
+
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                val res = dataSnapshot.getValue<Restorant>()
+                //RestorantList.list.add(res!!)
+                Log.w("mydata", "value get from the db: $res")
+                // ...
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("mydata", "loadPost:onCancelled", databaseError.toException())
+            }
+        })
+
+
+
+
 
 
 
