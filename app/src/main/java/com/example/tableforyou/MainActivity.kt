@@ -2,6 +2,7 @@ package com.example.tableforyou
 
 //import androidx.compose.ui.tooling.data.EmptyGroup.name
 import android.Manifest
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -28,9 +29,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tableforyou.Authentication.EmailPasswordActivity
 import com.example.tableforyou.Camera.CameraActivity
 import com.example.tableforyou.Data.MyData
+import com.example.tableforyou.Data.PREFERITIUTENTE
 import com.example.tableforyou.Data.RISTORANTI.RISTORANTIDADB
 import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Data.RestorantList
+import com.example.tableforyou.Data.UTENTIDADB
 import com.example.tableforyou.Data.User
 import com.example.tableforyou.Elements.BottomNavigationBar
 import com.example.tableforyou.Navigation.AppNavHost
@@ -55,6 +58,8 @@ import java.util.concurrent.Executors
 var photorev by mutableStateOf(Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.defaultimg))
 
 private lateinit var database: DatabaseReference
+private lateinit var databaseUSR: DatabaseReference
+private lateinit var databasePF: DatabaseReference
 private lateinit var query: Query
 
 //lateinit var RISTRORANTIDADB: MutableList<Restorant>
@@ -62,7 +67,7 @@ private lateinit var query: Query
 
 /*
 1. USER:
--FAVORITE
+-FAVORITE (pulsante deve rimanere pressed)
 -REVIEWS
 -RESERVATION
 
@@ -150,10 +155,17 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
+        //MyData().writeUser1(Users.list[0],Users.list[0].name)
 
         for (i in 0..RestorantList.list.size-1 ) { MyData().writeRestorant(RestorantList.list[i],"Restorant--$i") }
 
         //MyData().writeRestorant(RestorantList.list.first(),"Restorant0")
+        databasePF = Firebase
+            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
+            .reference
+        databaseUSR = Firebase
+            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("USERS")
 
         database = Firebase
             .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
@@ -176,11 +188,37 @@ class MainActivity : ComponentActivity() {
                 // ...
             }
 
+
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
                 Log.w("mydata", "loadPost:onCancelled", databaseError.toException())
             }
         })
+
+        databasePF.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for(res in dataSnapshot.child("PreferredOf${UTENTIDADB.name}").children) {
+                    //Log.w("pref", "res: ${dataSnapshot.child("PreferredOf${UTENTIDADB.name}").children}")
+                    if(!PREFERITIUTENTE.contains(res.getValue<Restorant>()!!))
+                        PREFERITIUTENTE.add(res.getValue<Restorant>()!!)
+                    if(res.getValue<Restorant>() == Restorant())
+                        PREFERITIUTENTE = mutableListOf()
+                }
+
+                //RestorantList.list.add(res!!)
+                //Log.w("pref", "value get from the db: ${dataSnapshot.child("PreferredOf${UTENTIDADB.name}")}")
+                Log.w("pref", "PREFERITIUTENTE: $PREFERITIUTENTE")
+
+            }
+
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("mydata", "loadPost:onCancelled", databaseError.toException())
+            }
+        })
+
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -196,6 +234,7 @@ class MainActivity : ComponentActivity() {
                         val intent = Intent(this, EmailPasswordActivity::class.java)
                         this.startActivity(intent)
                         EmailPasswordActivity().updatePsw("")
+                        PREFERITIUTENTE = mutableListOf()
                         this.finish()
                     },
                     addImage = { pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo));imageAdded =true; photoTaken =false}
@@ -290,7 +329,50 @@ fun MyApp(
                 createAccount = {},
                 signOut = signOut,
                 SignOUT = {},
-                addImage = addImage
+                addImage = addImage,
+                addToFavorite = {
+                    restorant ->
+                    databaseUSR.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            MyData().addPreferredUserRestorant(UTENTIDADB.name,restorant)
+                            /*for (userSnapshot in dataSnapshot.children) {
+                                //Log.w("diob", "value get from the db ${userSnapshot}")
+                                //Log.w("diob", "value: ${userSnapshot.getValue<User>()}")
+                               /* if(userSnapshot.key == UTENTIDADB.name){
+
+                                    /*MyData().addPreferredRestorant(
+                                        UTENTIDADB.name,
+                                        restorant.name,
+                                        restorant.tipo,
+                                        restorant.via,
+                                        restorant.logo,
+                                        restorant.card_img
+                                        )
+                                    val updates: MutableMap<String, Any> = hashMapOf(
+                                        "${UTENTIDADB.name}/preferred/${restorant.name}" to restorant,
+
+                                    )
+                                    databaseUSR.updateChildren(updates)*/
+                                    //databaseUSR.child(UTENTIDADB.name).child("preferred").child(restorant.name).setValue(restorant)
+
+                                    //Log.w("diob", "UTENTE: $UTENTIDADB")
+
+                                }*/
+                            }*/
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            // Getting Post failed, log a message
+                            Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
+                            // ...
+                        }
+                    })
+
+                },
+                removeFromFavorite = {
+                    restorant ->
+
+                }
             )
 
         }

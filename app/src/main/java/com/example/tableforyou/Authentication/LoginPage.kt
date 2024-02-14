@@ -55,9 +55,11 @@ import com.example.tableforyou.R
 
             LoginButton("Log-In",signIn)
 
+            /*
             Spacer(modifier = Modifier.padding(all = 5.dp))
 
             GoogleLoginButton(GsignIn)
+             */
 
             Spacer(modifier = Modifier.padding(all = 15.dp))
 

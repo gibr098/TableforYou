@@ -35,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -77,7 +76,7 @@ fun ReviewCard(modifier: Modifier = Modifier, review: Review) {
         ) {
             Column() {
                 Image(
-                    painter = painterResource(review.user.profile_img),
+                    painter = rememberAsyncImagePainter(model = Uri.parse(review.user.profile_img)),//painterResource(review.user.profile_img),
                     //painter = painterResource(res.logo),
                     contentDescription = "Contact profile picture",
                     modifier = Modifier
@@ -157,7 +156,7 @@ fun OpenedReviewCard(
                     ) {
                         Column() {
                             Image(
-                                painter = painterResource(review.user.profile_img),
+                                painter = rememberAsyncImagePainter(model = Uri.parse(review.user.profile_img)),//painterResource(review.user.profile_img),
                                 //painter = painterResource(res.logo),
                                 contentDescription = "Contact profile picture",
                                 modifier = Modifier

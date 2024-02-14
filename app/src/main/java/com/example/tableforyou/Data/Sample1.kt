@@ -1,125 +1,8 @@
 package com.example.tableforyou.Data
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import com.google.firebase.Firebase
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.database
-
-
-class MyData {
-    // Write a message to the database
-    //val database = Firebase
-     //.database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
-    //val database = Firebase.database
-    //val myRef = database.getReference("message")
-
-    private lateinit var database: DatabaseReference
-
-
-    fun writeNewUser(userId: String, name: String) {
-        database = Firebase
-            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
-            .reference
-
-        val user = User(
-            name = name,
-            profile_img = "",//R.drawable.muzon,
-            preferred = listOf(),
-            reservations = listOf(),
-            reviews = listOf(),
-        )
-
-        database.child("usersProva").child(userId).setValue(user)
-    }
-
-    fun writeRestorant(obj: Any, child: String) {
-        database = Firebase
-            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
-            .reference
-
-        val restorantv = Restorant(
-            "La stella Marina",
-            "Ristopescheria",
-            "via Bacoli 1",
-            2131165375,
-            2131165283,
-            menu = listOf( Plate(
-                name = "Risotto",
-                price = 9,
-                description = "Risotto ai frutti di mare"
-            )),
-            reviews = listOf(Review(Users.list[1],"very good",5,img = null)),
-            5,
-            tables = listOf()
-        )
-
-        database.child("RESTORANTS").child(child).setValue(obj)
-
-
-    }
-
-    fun writeUser(name: String, mail: String, profile_img: String, child: String) {
-        database = Firebase
-            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
-            .reference
-
-        var user = User(name,mail,profile_img)
-
-        database.child("USERS").child(child).setValue(user)
-
-
-    }
-    fun writeUser1(user: User, child: String) {
-        database = Firebase
-            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
-            .reference
-
-        database.child("USERS").child(child).setValue(user)
-
-
-    }
-    fun addPreferredUserRestorant(user:String, restorant: Restorant){
-        database = Firebase
-            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
-            .reference
-        database.child("PreferredOf$user").child(restorant.name).setValue(restorant)
-
-    }
-
-    fun addPreferredRestorant(username: String, name: String, tipo: String, via: String, logo: Int, card_img: Int ) {
-        database = Firebase
-            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
-            .reference
-        var restorant = Restorant(name, tipo, via, logo, card_img)
-
-        database.child("USERS").child(username).child("preferred").child(name).setValue(restorant)
-
-
-    }
-
-}
-
-
-var UTENTIDADB by mutableStateOf(Users.list[0])
- var PREFERITIUTENTE = mutableListOf<Restorant>()
-
-object RISTORANTI {
-    var RISTORANTIDADB by mutableStateOf(RestorantList.list)
-    fun getRes(restorantName: String?): Restorant {
-        return RISTORANTIDADB.first { it.name == restorantName }
-    }
-}
-
 /*
 val muz = R.drawable.muzon
 val gas = R.drawable.axel
-
-object  Axel{
-    val name = "Axel"
-    val img = R.drawable.axel
-}
 
 object Users {
     val list : List<User> = listOf(
@@ -230,31 +113,31 @@ object TrattoriaReviews {
             user = Users.list[2],
             note = "I love this trattoria",
             vote = 5,
-            img = null,
+            img = "",
         ),
         Review(
             user = Users.list[1],
             note = "Carbonara is the food fo the gods",
             vote = 5,
-            img = null,
+            img = "",
         ),
         Review(
             user = Users.list[0],
             note = "Very good restorant , but the service is very slow",
             vote = 3,
-            img = null,
+            img = "",
         ),
         Review(
             user = Users.list[0],
             note = "Very good restorant , but the service is very slow",
             vote = 3,
-            img = null,
+            img = "",
         ),
         Review(
             user = Users.list[1],
             note = "Carbonara is the food fo the gods",
             vote = 5,
-            img = null,
+            img = "",
         ),
     )
 }
@@ -265,31 +148,31 @@ object PizzeriaReviews {
             user = Users.list[0],
             note = "Very good pizzeria on the center of Naples. Great choice of pizzas and very good prices. The chef is amazing and very funny. I've taken the most famous pizza of naplese the Marinana",
             vote = 5,
-            img = Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.pizza_napoli)
+            img = "android.resource://com.example.tableforyou/"+R.drawable.pizza_napoli
         ),
         Review(
             user = Users.list[1],
             note = "I like Diavola very much",
             vote = 4,
-            img = Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.diavola)
+            img = "android.resource://com.example.tableforyou/"+ R.drawable.diavola //Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.diavola)
         ),
         Review(
             user = Users.list[2],
             note = "I don't like the pizza of this restorant",
             vote = 3,
-            img = null,
+            img = "",
         ),
         Review(
             user = Users.list[2],
             note = "I don't like the pizza of this restorant",
             vote = 1,
-            img = null,
+            img = "",
         ),
         Review(
             user = Users.list[2],
             note = "I don't like the pizza of this restorant",
             vote = 1,
-            img = null,
+            img = "",
         )
     )
 }
@@ -363,12 +246,6 @@ val menupizza=listOf(
 
 )
 
-val menutrattoria=listOf(
-    "Carbonara",
-    "Amatriciana",
-    "Cacio e pepe",
-    "Gricia"
-)
 
 object MenuTrattoria {
     val list : List<Plate> = listOf(
@@ -395,11 +272,14 @@ object MenuTrattoria {
     )
 }
 
+
+
 //val r1: Restorant = RestorantList.list[0]
+
 object RestorantList{
-    val list : List<Restorant> = listOf(
+    val list : MutableList<Restorant> = mutableListOf(
         Restorant(
-            name ="Pizzeria da ciro",
+            name ="Pizzeria da Ciro",
             tipo = "Pizzeria",
             via = "via bella napoli 34",
             logo = R.drawable.muzon,
@@ -407,7 +287,7 @@ object RestorantList{
             menu = MenuPizzeria.list,
             reviews = PizzeriaReviews.list,
             rank = computerank(PizzeriaReviews.list),
-            tables = PizzeriaTables.list
+            tables = listOf()//PizzeriaTables.list
         ),
         Restorant(
             name ="Il picchio rosso",
@@ -467,6 +347,8 @@ object RestorantList{
     }
 }
 
+
+
 object FavoriteList{
     val list : List<Restorant> = listOf(
         Restorant(
@@ -496,10 +378,10 @@ object FavoriteList{
     )
 
 }
+
+
+
+
 */
-
-
-
-
 
 

@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -66,30 +65,53 @@ fun BackButton() {
     }
 }
 
-@Preview(showBackground = true)
 
 @Composable
-fun FavoriteButton() {
+fun FavoriteButton(
+    res: Restorant,
+    addToFavorite: (Restorant)-> Unit,
+    removeFromFavorite: (Restorant) -> Unit
+) {
     Spacer(modifier = Modifier.width(170.dp)) //questo è temporaneo
     // probabilmente va modificato
-    var pressed by rememberSaveable { mutableStateOf(true) }
+    //var pressed by  remember{ mutableStateOf(true) }
+    /*
+    var b=true
+    for (r in UTENTIDADB.preferred) {
+        if(r.name == res.name) b = true else b = false
+    }*/
+    var pressed by remember {mutableStateOf(true)}
+    var contentcol by remember{ mutableStateOf(Color.LightGray) }
     Button(
-        onClick =  { pressed = !pressed } ,
+        onClick =  {
+            pressed = !pressed
+            addToFavorite(res)
+            if(pressed){
+                contentcol = Color.LightGray
+
+            }else{
+                contentcol = Color.Red
+                //removeFromFavorite(res)
+            }
+
+
+                   } ,
         shape = CircleShape,
         modifier = Modifier
             .size(60.dp)
             .padding(all = 10.dp)
+            .clickable { }
 
 
         ,
         contentPadding = PaddingValues(all = 5.dp),
         elevation = ButtonDefaults.buttonElevation(defaultElevation =  25.dp, pressedElevation = 25.dp),
-        enabled = pressed,
+        //enabled = pressed,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.White,
-            contentColor = Color.LightGray,
-            disabledContainerColor = Color.White ,
-            disabledContentColor = Color.Red
+            contentColor = contentcol //Color.LightGray,
+            //disabledContainerColor = Color.White ,
+            //disabledContentColor = Color.Red
         )
 
     ) {
@@ -189,7 +211,9 @@ fun ReviewStarsClickable():Int{
                 tint = if(c1){Color(0xFFD96600)}else{Color.LightGray},
                 modifier = Modifier
                     .size(50.dp)
-                    .clickable { c1 = true; c2 = false; c3 = false; c4 = false; c5 = false; starVote = 1}
+                    .clickable {
+                        c1 = true; c2 = false; c3 = false; c4 = false; c5 = false; starVote = 1
+                    }
             )
         Icon(
             Icons.Rounded.Star,
@@ -197,7 +221,9 @@ fun ReviewStarsClickable():Int{
             tint = if(c2){Color(0xFFD96600)}else{Color.LightGray},
             modifier = Modifier
                 .size(50.dp)
-                .clickable { c1 = true; c2 = true; c3 = false; c4 = false; c5 = false; starVote = 2}
+                .clickable {
+                    c1 = true; c2 = true; c3 = false; c4 = false; c5 = false; starVote = 2
+                }
         )
         Icon(
             Icons.Rounded.Star,
@@ -205,7 +231,7 @@ fun ReviewStarsClickable():Int{
             tint = if(c3){Color(0xFFD96600)}else{Color.LightGray},
             modifier = Modifier
                 .size(50.dp)
-                .clickable { c1 = true; c2 = true; c3 = true; c4 = false; c5 = false; starVote = 3}
+                .clickable { c1 = true; c2 = true; c3 = true; c4 = false; c5 = false; starVote = 3 }
         )
         Icon(
             Icons.Rounded.Star,
@@ -213,7 +239,7 @@ fun ReviewStarsClickable():Int{
             tint = if(c4){Color(0xFFD96600)}else{Color.LightGray},
             modifier = Modifier
                 .size(50.dp)
-                .clickable { c1 = true; c2 = true; c3 = true; c4 = true; c5 = false; starVote = 4}
+                .clickable { c1 = true; c2 = true; c3 = true; c4 = true; c5 = false; starVote = 4 }
         )
         Icon(
             Icons.Rounded.Star,
@@ -221,7 +247,7 @@ fun ReviewStarsClickable():Int{
             tint = if(c5){Color(0xFFD96600)}else{Color.LightGray},
             modifier = Modifier
                 .size(50.dp)
-                .clickable { c1 = true; c2 = true; c3 = true; c4 = true; c5 =true; starVote = 5}
+                .clickable { c1 = true; c2 = true; c3 = true; c4 = true; c5 = true; starVote = 5 }
         )
     }
     return starVote

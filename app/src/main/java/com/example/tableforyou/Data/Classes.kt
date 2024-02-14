@@ -4,7 +4,8 @@ package com.example.tableforyou.Data
 
 data class User(
     val name: String = "",
-    val profile_img: Int = 0,
+    val mail: String = "",
+    val profile_img: String = "",
     val preferred: List<Restorant> = listOf(),
     val reservations: List<Reservation> = listOf(),
     val reviews: List<Review> = listOf()
@@ -31,12 +32,11 @@ data class Restorant(
 )
 
 
-
-
 data class Plate(
     val name: String = "",
     val price: Int = 0,
-    val description: String = "")
+    val description: String = ""
+)
 
 data class Table(
     val num: Int = 0,
@@ -47,7 +47,7 @@ data class Table(
 )
 
 data class Reservation(
-    val table: Table = Table(),
+    //val table: Table = Table(),
     val data: Int = 0,
     val user: User= User()
 )

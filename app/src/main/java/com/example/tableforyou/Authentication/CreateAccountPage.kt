@@ -1,5 +1,6 @@
 package com.example.tableforyou.Authentication
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -52,7 +53,7 @@ fun CreateAccountForm(
     ) {
 
         Image(
-            painter = if (EmailPasswordActivity().getUri()!=null){rememberAsyncImagePainter(EmailPasswordActivity().getUri())} else {painterResource(id = R.drawable.defaultimg)},
+            painter = if (EmailPasswordActivity().getUri()!=null){rememberAsyncImagePainter(Uri.parse(EmailPasswordActivity().getProfImg()))} else {painterResource(id = R.drawable.defaultimg)},
             contentDescription = "icon",
             modifier = Modifier
                 .size(250.dp)

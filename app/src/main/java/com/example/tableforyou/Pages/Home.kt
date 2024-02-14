@@ -36,25 +36,38 @@ import com.example.tableforyou.Elements.SearchBar
 
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, onClickOpenRestorant: (String) -> Unit = {}){
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    onClickOpenRestorant: (String) -> Unit = {},
+    addToFavorite: (Restorant)-> Unit,
+    removeFromFavorite: (Restorant) -> Unit){
     Column(){
         SearchBar()
-        RestorantCardColumn(onClickOpenRestorant = onClickOpenRestorant)
+        RestorantCardColumn(onClickOpenRestorant = onClickOpenRestorant, addToFavorite = addToFavorite, removeFromFavorite = removeFromFavorite)
 
     }
 }
 
 @Composable
-fun RestorantCardColumn(modifier: Modifier = Modifier,onClickOpenRestorant: (String) -> Unit = {}) {
+fun RestorantCardColumn(
+    modifier: Modifier = Modifier,
+    onClickOpenRestorant: (String) -> Unit = {},
+    addToFavorite: (Restorant)-> Unit,
+    removeFromFavorite: (Restorant) -> Unit) {
     //Restorants(RestorantList.list, onClickOpenRestorant)
-    Restorants(RISTORANTIDADB, onClickOpenRestorant)
+    Restorants(RISTORANTIDADB, onClickOpenRestorant,addToFavorite,removeFromFavorite)
 }
 
 @Composable
-fun Restorants(restorant: List<Restorant>,onClickOpenRestorant: (String) -> Unit = {}) {
+fun Restorants(
+    restorant: List<Restorant>,
+    onClickOpenRestorant: (String) -> Unit = {},
+    addToFavorite: (Restorant)-> Unit,
+    removeFromFavorite: (Restorant) -> Unit
+    ) {
     LazyColumn {
         items(restorant) { restorant ->
-            RestorantCard(Modifier ,restorant, onClickOpenRestorant)
+            RestorantCard(Modifier ,restorant, onClickOpenRestorant,addToFavorite,removeFromFavorite)
 
         }
 
@@ -63,7 +76,13 @@ fun Restorants(restorant: List<Restorant>,onClickOpenRestorant: (String) -> Unit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestorantCard(modifier: Modifier = Modifier, res: Restorant, onClickOpenRestorant: (String) -> Unit = {}) {
+fun RestorantCard(
+    modifier: Modifier = Modifier,
+    res: Restorant,
+    onClickOpenRestorant: (String) -> Unit = {},
+    addToFavorite: (Restorant)-> Unit,
+    removeFromFavorite: (Restorant) -> Unit
+) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -99,7 +118,11 @@ fun RestorantCard(modifier: Modifier = Modifier, res: Restorant, onClickOpenRest
                                 .height(150.dp)
                                 .fillMaxWidth()
                         )
-                        FavoriteButton()
+                        FavoriteButton(
+                            res,
+                            addToFavorite = addToFavorite,
+                            removeFromFavorite = removeFromFavorite
+                        )
                     }
 
                 }

@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.tableforyou.Authentication.CreateAccountForm
 import com.example.tableforyou.Authentication.LoginForm
+import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Pages.FavoriteScreen
 import com.example.tableforyou.Pages.HomeScreen
 import com.example.tableforyou.Pages.RestorantPageScreen
@@ -24,7 +25,9 @@ fun AppNavHost(
     createAccount: () -> Unit,
     signOut: ()-> Unit,
     SignOUT: ()->Unit,
-    addImage:()->Unit
+    addImage:()->Unit,
+    addToFavorite: (Restorant)-> Unit,
+    removeFromFavorite: (Restorant) -> Unit
 ){
 
     NavHost(
@@ -37,7 +40,9 @@ fun AppNavHost(
                 //onClickOpenRestorant = {navController.navigateSingleTopTo(RestorantPage.route)}
                 onClickOpenRestorant = { restorantId ->
                     //Log.v("prova", "restorantid"+restorantId)
-                    navController.navigateToSingleRestorant(restorantId)}
+                    navController.navigateToSingleRestorant(restorantId)},
+                addToFavorite = addToFavorite,
+                removeFromFavorite = removeFromFavorite
             )
         }/*
         composable(route = WriteReviewPage.route) {
@@ -94,14 +99,20 @@ fun AppNavHost(
                     navController.navigateSingleTopTo(newScreen.route)},*/
                 onButtonClicked = {wrp_id ->
                     navController.navigateToSingleRestorantWriteReview(wrp_id)},
-                openCamera = openCamera
+                openCamera = openCamera,
+                addToFavorite = addToFavorite,
+                removeFromFavorite = removeFromFavorite
                 )
         }
         composable(route = Reservations.route) {
             //ReservationsScreen()
         }
         composable(route = Favorite.route) {
-            FavoriteScreen()
+            FavoriteScreen(onClickOpenRestorant = { restorantId ->
+                //Log.v("prova", "restorantid"+restorantId)
+                navController.navigateToSingleRestorant(restorantId)},
+                addToFavorite = addToFavorite,
+                removeFromFavorite = removeFromFavorite)
         }
 
         composable(route = Settings.route) {
@@ -141,7 +152,9 @@ fun AppNavHost2(
     GsignIn: () -> Unit,
     createAccount: () ->Unit,
     SignOUT: ()->Unit,
-    pickPhoto:()->Unit
+    pickPhoto:()->Unit,
+    addToFavorite: (Restorant)-> Unit,
+    removeFromFavorite: (Restorant) -> Unit
 ){
 
     NavHost(
@@ -154,7 +167,9 @@ fun AppNavHost2(
                 //onClickOpenRestorant = {navController.navigateSingleTopTo(RestorantPage.route)}
                 onClickOpenRestorant = { restorantId ->
                     //Log.v("prova", "restorantid"+restorantId)
-                    navController.navigateToSingleRestorant(restorantId)}
+                    navController.navigateToSingleRestorant(restorantId)},
+                addToFavorite = addToFavorite,
+                removeFromFavorite = removeFromFavorite
             )
         }/*
         composable(route = WriteReviewPage.route) {
@@ -211,14 +226,21 @@ fun AppNavHost2(
                     navController.navigateSingleTopTo(newScreen.route)},*/
                 onButtonClicked = {wrp_id ->
                     navController.navigateToSingleRestorantWriteReview(wrp_id)},
-                openCamera = openCamera
+                openCamera = openCamera,
+                addToFavorite = addToFavorite,
+                removeFromFavorite = removeFromFavorite
+
             )
         }
         composable(route = Reservations.route) {
             //ReservationsScreen()
         }
         composable(route = Favorite.route) {
-            FavoriteScreen()
+            FavoriteScreen(onClickOpenRestorant = { restorantId ->
+                //Log.v("prova", "restorantid"+restorantId)
+                navController.navigateToSingleRestorant(restorantId)},
+                addToFavorite = addToFavorite,
+                removeFromFavorite = removeFromFavorite)
         }
 
         composable(route = Settings.route) {

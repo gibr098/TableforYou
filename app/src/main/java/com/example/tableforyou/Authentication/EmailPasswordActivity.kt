@@ -20,6 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.tableforyou.Data.MyData
+import com.example.tableforyou.Data.UTENTIDADB
+import com.example.tableforyou.Data.User
 import com.example.tableforyou.MainActivity
 import com.example.tableforyou.Navigation.AppNavHost2
 import com.example.tableforyou.R
@@ -28,18 +31,28 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.userProfileChangeRequest
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-
+private lateinit var database: DatabaseReference
 
 var pickphoto by mutableStateOf(false)
 var mail by mutableStateOf("")
 var password by mutableStateOf("")
 var name by mutableStateOf("")
 var url by mutableIntStateOf(0)
-var Profileimg by mutableStateOf(Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.defaultimg))
+var defaultimg = "android.resource://com.example.tableforyou/"+ R.drawable.defaultimg
+var profileimage by mutableStateOf(defaultimg)
+var Profileimg by mutableStateOf(Uri.parse(profileimage))
 
 class EmailPasswordActivity : ComponentActivity() {
+
+
     private lateinit var auth: FirebaseAuth
     fun updateMail(input: String) { mail = input }
     fun updatePsw(input: String) { password = input }
@@ -50,15 +63,17 @@ class EmailPasswordActivity : ComponentActivity() {
     fun getName(): String{ return name }
     fun getPwd(): String{ return name }
     fun getUri(): Any { return Profileimg }
+    fun getProfImg(): String { return profileimage }
 
 
-    val pickMedia =
+        val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             // Callback is invoked after the user selects a media item or closes the
             // photo picker.
             if (uri != null) {
                 Log.d("PhotoPicker", "Selected URI: $uri")
-                Profileimg = uri
+                //Profileimg = uri
+                profileimage = uri.toString()
             } else {
                 Log.d("PhotoPicker", "No media selected")
             }
@@ -94,12 +109,38 @@ class EmailPasswordActivity : ComponentActivity() {
         setContent {
             TableforYouTheme {
                AuthApp(
-                       signIn = { SignIn(mail,password) },
+                       signIn = {
+                           SignIn(mail,password)
+                           // My top posts by number of stars
+                           /*
+                           database.addValueEventListener(object : ValueEventListener {
+                               override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                   for (userSnapshot in dataSnapshot.children) {
+                                       Log.w("diob", "value get from the db ${userSnapshot}")
+                                       //Log.w("diob", "value: ${userSnapshot.getValue<User>()}")
+                                       //if(userSnapshot.getValue<User>()!!.mail == mail){
+                                       if(userSnapshot.value.toString().contains(mail)){
+                                           UTENTIDADB = userSnapshot.getValue<User>()!!
+                                           //Log.w("diob", "UTENTE: $UTENTIDADB")
+
+                                       }
+
+                                   }
+                               }
+
+                               override fun onCancelled(databaseError: DatabaseError) {
+                                   // Getting Post failed, log a message
+                                   Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                                   // ...
+                               }
+                           })*/
+
+                                },
                        GsignIn = {
                            val intent = Intent(this, GoogleSignInActivity::class.java)
                            EmailPasswordActivity().baseContext.startActivity(intent)},
                    createAccount = {
-                       this.CreateAccount(mail, password);password=""
+                       this.CreateAccount(mail, password) ; password=""
                        val profileUpdates = userProfileChangeRequest {
                            displayName = name
                            photoUri = Profileimg
@@ -110,9 +151,10 @@ class EmailPasswordActivity : ComponentActivity() {
                                    Log.d(TAG, "User profile updated.")
                                }
                            }
+                       MyData().writeUser(name, mail, profileimage, name)
 
                                    },
-                   SignOUT = { password=""; signOut()},
+                   SignOUT = { password="";profileimage = defaultimg; signOut()},
                    pickPhoto={ pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo)); }
 
                    )
@@ -133,11 +175,13 @@ class EmailPasswordActivity : ComponentActivity() {
 
     public override fun onStart() {
         super.onStart()
+
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if (currentUser != null) {
             //reload()
         }
+
 
     }
 
@@ -185,6 +229,45 @@ class EmailPasswordActivity : ComponentActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    database = Firebase
+                        .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
+                        .getReference("USERS")
+
+                    database.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (user in dataSnapshot.children) {
+                                if(user.value.toString().contains(mail)){
+                                    UTENTIDADB = user.getValue<User>()!!
+                                    Log.w("prova", "user in data.children: $UTENTIDADB")
+
+                                }
+                            }
+                        }
+
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            // Getting Post failed, log a message
+                            Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                            // ...
+                        }
+                    })
+                    /*
+                    database = com.google.firebase.Firebase
+                        .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
+                        .getReference("USERS")
+                    database.get().addOnSuccessListener {
+
+
+                            Log.i("prova", "user in it.children: ${it.getValue<User>()}")
+                                //UTENTIDADB = it.getValue<User>()!!
+
+
+                        Log.i("prova", "utente preso da mail $UTENTIDADB")
+                    }.addOnFailureListener{
+                        Log.e("prova", "Error getting data", it)
+                    }*/
+
+
                     // Sign in success, update UI with the signed-in user's information
                     Toast.makeText(
                         baseContext,
@@ -198,7 +281,7 @@ class EmailPasswordActivity : ComponentActivity() {
                     Thread.sleep(1500)
                     val intent = Intent(this, MainActivity::class.java)
                     this.startActivity(intent)
-                    //this.finish()
+                    this.finish()
 
                     //updateUI(user)
                 } else {
@@ -289,7 +372,9 @@ fun AuthApp(
             GsignIn = GsignIn,
             createAccount = createAccount,
             SignOUT = SignOUT,
-            pickPhoto=pickPhoto
+            pickPhoto=pickPhoto,
+            addToFavorite = {},
+            removeFromFavorite = {}
         )
 
     }

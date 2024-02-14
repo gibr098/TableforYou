@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -59,28 +60,54 @@ fun RestorantPageScreen(
     restorantId: String? = RISTORANTIDADB[0].name,//RestorantList.list.first().name,
     onBackClicked: (AppDestination) -> Unit,
     onButtonClicked: (String) -> Unit = {},
-    openCamera: () -> Unit
+    openCamera: () -> Unit,
+    addToFavorite: (Restorant)-> Unit,
+    removeFromFavorite: (Restorant) -> Unit
 ){
 
     //val restorant = remember(restorantId) { RestorantList.getRestorant(restorantId) }
     val restorant = remember(restorantId) { RISTORANTI.getRes(restorantId) }
     Column {
         UpBar(titolo = "", true, onBackClicked = onBackClicked, Home)
-        RestorantScreen(restorant, openCamera, onButtonClicked)
+        RestorantScreen(
+            restorant,
+            openCamera,
+            onButtonClicked,
+            addToFavorite,
+            removeFromFavorite
+            )
     }
 
 }
 
 @Composable
-fun RestorantScreen(restorant: Restorant, openCamera: () -> Unit, onButtonClicked: (String) -> Unit ={}) {
+fun RestorantScreen(
+    restorant: Restorant,
+    openCamera: () -> Unit,
+    onButtonClicked: (String) -> Unit ={},
+    addToFavorite: (Restorant)-> Unit,
+    removeFromFavorite: (Restorant) -> Unit
+) {
     //Restorants1(RestorantList.list)
     //RestorantPage(restorant = RestorantList.list[0])
-    RestorantPage(restorant = restorant, openCamera = openCamera, onButtonClicked = onButtonClicked)
+    RestorantPage(
+        restorant = restorant,
+        openCamera = openCamera,
+        onButtonClicked = onButtonClicked,
+        addToFavorite = addToFavorite,
+        removeFromFavorite = removeFromFavorite)
 
 }
 
 @Composable
-fun RestorantPage(modifier: Modifier = Modifier, restorant: Restorant, openCamera: () -> Unit, onButtonClicked: (String) -> Unit={}) {
+fun RestorantPage(
+    modifier: Modifier = Modifier,
+    restorant: Restorant,
+    openCamera: () -> Unit,
+    onButtonClicked: (String) -> Unit={},
+    addToFavorite: (Restorant)-> Unit,
+    removeFromFavorite: (Restorant) -> Unit
+) {
     var ayt by remember { mutableStateOf(false) }
     var menuClicked by remember { mutableStateOf(true) }
     var reviewsClicked by remember { mutableStateOf(false) }
@@ -169,7 +196,11 @@ fun RestorantPage(modifier: Modifier = Modifier, restorant: Restorant, openCamer
                         Column(
                             horizontalAlignment = Alignment.End
                         ) {
-                            FavoriteButton()
+                            FavoriteButton(
+                                restorant,
+                                addToFavorite = addToFavorite,
+                                removeFromFavorite = removeFromFavorite
+                            )
                             //ActivateButton(openCamera=openCamera)
                             ReviewButton(onButtonClicked = onButtonClicked, restorant)
                         }
@@ -250,19 +281,25 @@ fun MenuItem(plate: Plate){//, table_is_active: Boolean){
 
 
     ){
-        Column(
-            //modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = plate.name,
-                fontSize = 20.sp
-            )
-            Text(
-                text = plate.description,
-                fontSize = 15.sp,
-                //modifier = Modifier.fillMaxWidth()
-            )
+        Row (
+            modifier = Modifier.width(250.dp)
+        ){
 
+
+            Column(
+                //modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = plate.name,
+                    fontSize = 20.sp
+                )
+                Text(
+                    text = plate.description,
+                    fontSize = 15.sp,
+                    //modifier = Modifier.fillMaxWidth()
+                )
+
+            }
         }
         Text(
             text = plate.price.toString() + "€",

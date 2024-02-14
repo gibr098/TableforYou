@@ -1,5 +1,6 @@
 package com.example.tableforyou.Pages
 
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -23,7 +24,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.example.tableforyou.Authentication.EmailPasswordActivity
+import com.example.tableforyou.Data.UTENTIDADB
 import com.example.tableforyou.Elements.UpBar
 import com.example.tableforyou.Navigation.Home
 
@@ -42,7 +43,7 @@ fun Settings(
             UpBar("Settings", false, onBackClicked = { }, Home)
             Row(modifier = Modifier.padding(all = 30.dp)) {
                 Image(
-                    painter = rememberAsyncImagePainter(EmailPasswordActivity().getUri()),
+                    painter = rememberAsyncImagePainter(Uri.parse(UTENTIDADB.profile_img)),
 
                     /*
                     painter = if (EmailPasswordActivity().getUserImg()!=null){
@@ -61,8 +62,10 @@ fun Settings(
                         )
                 )
                 Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-                    Text(EmailPasswordActivity().getName(), fontSize = 25.sp)
-                    Text(EmailPasswordActivity().getMail(), fontSize = 15.sp)
+                    Text(UTENTIDADB.name, fontSize = 25.sp)
+                    Text(UTENTIDADB.mail, fontSize = 15.sp)
+                    //Text(EmailPasswordActivity().getName(), fontSize = 25.sp)
+                    //Text(EmailPasswordActivity().getMail(), fontSize = 15.sp)
 
                 }
 
