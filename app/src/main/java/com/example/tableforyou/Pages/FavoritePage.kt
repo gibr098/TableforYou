@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.tableforyou.Data.PREFERITIUTENTE
 import com.example.tableforyou.Data.Restorant
+import com.example.tableforyou.Data.UTENTIDADB
 import com.example.tableforyou.Elements.SearchBar
 import com.example.tableforyou.Elements.UpBar
 import com.example.tableforyou.Navigation.Home
@@ -35,7 +35,7 @@ fun RestorantCardFavoriteColumn(
     ) {
     //Restorants(Users.list[0].preferred)
     Restorants(
-        PREFERITIUTENTE,
+        UTENTIDADB.preferred,
         onClickOpenRestorant = onClickOpenRestorant,
         addToFavorite = addToFavorite,
         removeFromFavorite = removeFromFavorite,

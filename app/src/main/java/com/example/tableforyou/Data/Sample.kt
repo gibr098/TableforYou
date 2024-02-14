@@ -7,35 +7,12 @@ val muz = R.drawable.muzon
 val gas = R.drawable.axel
 val path = "android.resource://com.example.tableforyou/"
 object Users {
-    val list : List<User> = listOf(
+    val list : MutableList<User> = mutableListOf(
         User(
             name = "Muzon",
             mail = "user@mail.it",
             profile_img = path + R.drawable.muzon,
-            preferred = listOf<Restorant>(
-                Restorant(
-                    name ="Pizzeria da ciro",
-                    tipo = "Pizzeria",
-                    via = "via bella napoli 34",
-                    logo = R.drawable.muzon,
-                    card_img = R.drawable.pizza,
-                    menu = MenuPizzeriaCiro.list,
-                    //reviews = PizzeriaCiroReviews.list,
-//                    rank = computerank(PizzeriaCiroReviews.list),
-                    tables = PizzeriaCiroTables.list
-                ),
-                Restorant(
-                    name ="Il picchio rosso",
-                    tipo = "Trattoria",
-                    via = "via ascoli 47",
-                    logo = R.drawable.picchio,
-                    card_img = R.drawable.carbo,
-                    menu = MenuTrattoriaPicchioRosso.list,
-                    //reviews = TrattoriaPicchioRossoReviews.list,
-                    //rank = computerank(TrattoriaPicchioRossoReviews.list),
-                    tables = TrattoriaPicchioRossoTables.list
-
-                )
+            preferred = mutableListOf<Restorant>(
                 //RestorantList.list[0],
                 //RestorantList.list[2]
             ),
@@ -45,20 +22,23 @@ object Users {
         User(
             name = "Axel",
             profile_img = path + R.drawable.axel,
-            preferred = listOf<Restorant>(),
+            preferred = mutableListOf<Restorant>(),
             reservations = listOf(),
             reviews = listOf(),
         ),
         User(
             name = "Franchino",
             profile_img = path + R.drawable.cinghiale,
-            preferred = listOf<Restorant>(),
+            preferred = mutableListOf<Restorant>(),
             reservations = listOf(),
             reviews = listOf(),
         )
 
 
     )
+    fun getUser(userName: String?): User {
+        return Users.list.first { it.name == userName }
+    }
 }
 
 object PizzeriaCiroTables {
@@ -96,7 +76,7 @@ object PizzeriaCiroTables {
 }
 
 object PizzeriaCiroReviews {
-    val list : List<Review> = listOf(
+    val list : MutableList<Review> = mutableListOf(
         Review(
             user = User(),//Users.list[0],
             note = "Very good pizzeria on the center of Naples. Great choice of pizzas and very good prices. The chef is amazing and very funny. I've taken the most famous pizza of naplese the Marinana",
@@ -276,7 +256,7 @@ object TrattoriaPicchioRossoTables {
 }
 
 object TrattoriaPicchioRossoReviews {
-    val list : List<Review> = listOf(
+    val list : MutableList<Review> = mutableListOf(
         Review(
             user = Users.list[2],
             note = "Amo questa trattoria. Personale gentile, cibo ottimo.",
@@ -422,7 +402,7 @@ object RistoranteTagliereVolanteTables {
 }
 
 object RistoranteTagliereVolanteReviews {
-    val list : List<Review> = listOf(
+    val list : MutableList<Review> = mutableListOf(
         Review(
             user = Users.list[2],
             note = "Cibo ottimo. Abbiamo passato una piacevole cena, sicuramente torneremo! Tagliata di picanha proprio buona. Personale gentile.",
@@ -589,7 +569,7 @@ object PanissimoTables {
 }
 
 object PanissimoReviews {
-    val list : List<Review> = listOf(
+    val list : MutableList<Review> = mutableListOf(
         Review(
             user = Users.list[2],
             note = "Panini enormi. Io mangio tanto e comunque faccio difficoltà a finirne uno. Quello con il pulled pork è magico.",
@@ -730,7 +710,7 @@ object BettolaCinghialeContentoTables {
 }
 
 object BettolaCinghialeContentoReviews {
-    val list : List<Review> = listOf(
+    val list : MutableList<Review> = mutableListOf(
         Review(
             user = Users.list[2],
             note = "Consigliatissimo per gli amanti della cacciaggione. I proprietari sono molto attenti alla freschezza e alla qualità del prodotto.",

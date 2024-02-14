@@ -2,7 +2,6 @@ package com.example.tableforyou
 
 //import androidx.compose.ui.tooling.data.EmptyGroup.name
 import android.Manifest
-import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -32,7 +31,6 @@ import com.example.tableforyou.Data.MyData
 import com.example.tableforyou.Data.PREFERITIUTENTE
 import com.example.tableforyou.Data.RISTORANTI.RISTORANTIDADB
 import com.example.tableforyou.Data.Restorant
-import com.example.tableforyou.Data.RestorantList
 import com.example.tableforyou.Data.UTENTIDADB
 import com.example.tableforyou.Data.User
 import com.example.tableforyou.Elements.BottomNavigationBar
@@ -157,7 +155,7 @@ class MainActivity : ComponentActivity() {
         super.onStart()
         //MyData().writeUser1(Users.list[0],Users.list[0].name)
 
-        for (i in 0..RestorantList.list.size-1 ) { MyData().writeRestorant(RestorantList.list[i],"Restorant--$i") }
+        //for (i in 0..RestorantList.list.size-1 ) { MyData().writeRestorant(RestorantList.list[i],"${RestorantList.list[i].name}") }
 
         //MyData().writeRestorant(RestorantList.list.first(),"Restorant0")
         databasePF = Firebase
@@ -331,8 +329,9 @@ fun MyApp(
                 SignOUT = {},
                 addImage = addImage,
                 addToFavorite = {
-                    restorant ->
-                    databaseUSR.addValueEventListener(object : ValueEventListener {
+                    restorant -> MyData().addRestorantToFavorites(restorant, UTENTIDADB)
+
+                    /*databaseUSR.addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             MyData().addPreferredUserRestorant(UTENTIDADB.name,restorant)
                             /*for (userSnapshot in dataSnapshot.children) {
@@ -366,7 +365,7 @@ fun MyApp(
                             Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
                             // ...
                         }
-                    })
+                    })*/
 
                 },
                 removeFromFavorite = {

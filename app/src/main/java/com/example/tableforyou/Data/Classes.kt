@@ -2,14 +2,17 @@ package com.example.tableforyou.Data
 
 //import com.google.common.collect.Table
 
+//@get:Exclude
+
 data class User(
     val name: String = "",
     val mail: String = "",
     val profile_img: String = "",
-    val preferred: List<Restorant> = listOf(),
+    val preferred: MutableList<Restorant> = mutableListOf(),
     val reservations: List<Reservation> = listOf(),
     val reviews: List<Review> = listOf()
 )
+
 
 data class Review (
     val user: User = User(),
@@ -26,7 +29,7 @@ data class Restorant(
     val logo: Int = 0,
     val card_img: Int = 0,
     val menu: List<Plate> = listOf(),
-    val reviews : List<Review> = listOf(),
+    val reviews : MutableList<Review> = mutableListOf<Review>(),
     var rank: Int = 0,
     val tables: List<Table> = listOf()
 )

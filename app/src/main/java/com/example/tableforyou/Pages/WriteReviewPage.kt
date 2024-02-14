@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.tableforyou.Camera.CameraActivity
+import com.example.tableforyou.Data.MyData
 import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Data.RestorantList
 import com.example.tableforyou.Elements.ReviewStarsClickable
@@ -86,14 +87,14 @@ fun WriteReviewBox(
 
                 Text("Confirm")
             }
-            /*
+
             if(rev){
                 var i = CameraActivity().getPhotorev()
                 if(photoTaken) i = CameraActivity().getPhotorev()
                 else if (imageAdded) i = MainActivity().getImagerev()
-                completeReview(img = i  ,
-                    note = text, vote = vote, user = Users.list[0])
-            }*/
+                //completeReview(img = i  , note = text, vote = vote, user = Users.list[0])
+                MyData().postReview(text,vote,restorant)
+            }
 
 
         }

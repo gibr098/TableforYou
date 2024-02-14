@@ -26,7 +26,7 @@ class MyData {
         val user = User(
             name = name,
             profile_img = "",//R.drawable.muzon,
-            preferred = listOf(),
+            preferred = mutableListOf(),
             reservations = listOf(),
             reviews = listOf(),
         )
@@ -50,7 +50,7 @@ class MyData {
                 price = 9,
                 description = "Risotto ai frutti di mare"
             )),
-            reviews = listOf(Review(Users.list[1],"very good",5,img = null)),
+            reviews = mutableListOf(),//listOf(Review(Users.list[1],"very good",5,img = null)),
             5,
             tables = listOf()
         )
@@ -71,12 +71,12 @@ class MyData {
 
 
     }
-    fun writeUser1(user: User, child: String) {
+    fun writeUser1(user: User) {
         database = Firebase
             .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
             .reference
 
-        database.child("USERS").child(child).setValue(user)
+        database.child("USERS").child(user.name).setValue(user)
 
 
     }
@@ -84,7 +84,8 @@ class MyData {
         database = Firebase
             .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
             .reference
-        database.child("PreferredOf$user").child(restorant.name).setValue(restorant)
+
+        //database.child("PreferredOf$user").child(restorant.name).setValue(restorant)
 
     }
 
@@ -96,6 +97,34 @@ class MyData {
 
         database.child("USERS").child(username).child("preferred").child(name).setValue(restorant)
 
+
+    }
+    fun postReview(note:String, vote: Int, restorant: Restorant){
+        database = Firebase
+            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
+            .reference
+
+        val rev = Review(user = UTENTIDADB, note = note, vote = vote)
+        RestorantList.getRestorant(restorant.name).reviews.add(rev)
+        writeRestorant(restorant,restorant.name)
+
+        //database.child("ReviewsOf${restorant.name}").child("ReviewOf${UTENTIDADB.name}").setValue(rev)
+
+    }
+    fun addRestorantToFavorites(restorant: Restorant,user: User){
+        database = Firebase
+            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
+            .reference
+
+        if (Users.list.contains(user)){
+            Users.getUser(user.name).preferred.add(restorant)
+        }else{
+            Users.list.add(user)
+        }
+
+        writeUser1(user)
+
+        //database.child("ReviewsOf${restorant.name}").child("ReviewOf${UTENTIDADB.name}").setValue(rev)
 
     }
 
