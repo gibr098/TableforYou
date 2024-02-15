@@ -81,7 +81,7 @@ fun WriteReviewBox(
                 Text("Take Image from gallery")
             }
             TextButton(
-                onClick = { rev=true },
+                onClick = { rev=true ; MyData().postReview(text,vote,restorant)},
                 enabled = if( vote == 0 ){false} else {true}
                 ) {
 
@@ -93,7 +93,7 @@ fun WriteReviewBox(
                 if(photoTaken) i = CameraActivity().getPhotorev()
                 else if (imageAdded) i = MainActivity().getImagerev()
                 //completeReview(img = i  , note = text, vote = vote, user = Users.list[0])
-                MyData().postReview(text,vote,restorant)
+                //MyData().postReview(text,vote,restorant)
             }
 
 

@@ -98,6 +98,10 @@ class MainActivity : ComponentActivity() {
         return photorev
     }
 
+    fun getCon(): MainActivity{
+        return this@MainActivity
+    }
+
 
 
 
@@ -331,6 +335,7 @@ fun MyApp(
                 addToFavorite = {
                     restorant -> MyData().addRestorantToFavorites(restorant, UTENTIDADB)
 
+
                     /*databaseUSR.addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             MyData().addPreferredUserRestorant(UTENTIDADB.name,restorant)
@@ -369,7 +374,7 @@ fun MyApp(
 
                 },
                 removeFromFavorite = {
-                    restorant ->
+                    restorant ->MyData().removeRestorantFromFavorites(restorant, UTENTIDADB)
 
                 }
             )

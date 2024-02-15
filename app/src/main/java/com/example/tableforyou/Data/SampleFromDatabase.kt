@@ -128,6 +128,23 @@ class MyData {
 
     }
 
+    fun removeRestorantFromFavorites(restorant: Restorant,user: User){
+        database = Firebase
+            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
+            .reference
+
+        if (Users.list.contains(user)){
+            Users.getUser(user.name).preferred.remove(restorant)
+        }else{
+            Users.list.add(user)
+        }
+
+        writeUser1(user)
+
+        //database.child("ReviewsOf${restorant.name}").child("ReviewOf${UTENTIDADB.name}").setValue(rev)
+
+    }
+
 }
 
 

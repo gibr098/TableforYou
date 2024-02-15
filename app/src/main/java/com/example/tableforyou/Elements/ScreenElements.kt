@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Data.Review
+import com.example.tableforyou.Data.UTENTIDADB
 
 
 @Composable
@@ -75,23 +77,29 @@ fun FavoriteButton(
     Spacer(modifier = Modifier.width(170.dp)) //questo è temporaneo
     // probabilmente va modificato
     //var pressed by  remember{ mutableStateOf(true) }
-    /*
+
+
     var b=true
     for (r in UTENTIDADB.preferred) {
-        if(r.name == res.name) b = true else b = false
-    }*/
-    var pressed by remember {mutableStateOf(true)}
+        if(r.name == res.name) b = false else b = true
+    }
+    var pressed by rememberSaveable {mutableStateOf(false)}
     var contentcol by remember{ mutableStateOf(Color.LightGray) }
     Button(
         onClick =  {
-            pressed = !pressed
-            addToFavorite(res)
-            if(pressed){
-                contentcol = Color.LightGray
+            //pressed = !pressed
+            //addToFavorite(res)
+            if(!pressed){
+                contentcol = Color.Red
+                addToFavorite(res)
+                pressed = !pressed
+
 
             }else{
-                contentcol = Color.Red
-                //removeFromFavorite(res)
+                contentcol = Color.LightGray
+                removeFromFavorite(res)
+                pressed = !pressed
+
             }
 
 
