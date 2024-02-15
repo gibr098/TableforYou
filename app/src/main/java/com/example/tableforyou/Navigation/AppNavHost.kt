@@ -77,7 +77,8 @@ fun AppNavHost(
             navController.navigateToSingleRestorant(restorantId)},
                 //restorant = RestorantList.getRestorant(wrp_restorantId)
                 openCamera = openCamera,
-                addImage = addImage
+                addImage = addImage,
+
 
 
             )
@@ -206,7 +207,8 @@ fun AppNavHost2(
                     navController.navigateToSingleRestorant(restorantId)},
                 //restorant = RestorantList.getRestorant(wrp_restorantId)
                 openCamera = openCamera,
-                addImage={}
+                addImage={},
+
 
 
                 )

@@ -49,6 +49,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.tableforyou.Data.MyData
 import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Data.Table
 import java.util.Calendar
@@ -82,7 +83,7 @@ fun ReservationScreen(
         if(view) {
             DATA = DateTimePickerComponent(restorant,changeView = {view = false})
         }else{
-            TabledropdownMenu(restorant,DATA, confirmReservation, restorant.tables)
+            TabledropdownMenu(restorant,DATA, confirmReservation, restorant.tables, changeView = {view = true})
         }
     }
 
@@ -124,7 +125,8 @@ fun TabledropdownMenu(
     restorant: Restorant,
     data: String,
     confirmReservation: (Table,String) -> Unit,
-    tables: List<Table>
+    tables: List<Table>,
+    changeView: () -> Unit
 ){
     var isExpanded by remember {
         mutableStateOf(false)
@@ -225,9 +227,11 @@ fun TabledropdownMenu(
             //DATA = "$date At $time"
             Spacer(modifier = Modifier.padding(all = 30.dp))
             Button(
-                onClick = { showReservationResult = true; confirmReservation(tab, data) }, // =true}
+                onClick = { showReservationResult = true; confirmReservation(tab, data); changeView() }, // =true}
                 //onClick = { confirmReservation(tab,"$date At $time"); showReservationResult = true; DATA = "" },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 50.dp),
                 //colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
             ) {
                 Text(text = "Confirm")
@@ -315,7 +319,20 @@ fun DateTimePickerComponent(
         if (dateSelected and timeSelected) {
             //DATA = "$date At $time"
             Button(
-                onClick = changeView,
+                onClick = {
+                    changeView()
+                    for(t in restorant.tables){
+                        for(r in t.reservations){
+                            if (r.resData == ("$date At $time")){
+                                t.reserved=true
+                                MyData().writeRestorant(restorant,restorant.name)
+                            }else{
+                                t.reserved=false
+                                MyData().writeRestorant(restorant,restorant.name)
+                            }
+                        }
+                    }
+                          },
                 //onClick = { confirmReservation(tab,"$date At $time"); showReservationResult = true; DATA = "" },
                 modifier = Modifier.fillMaxWidth(),
                 //colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
@@ -382,6 +399,7 @@ fun DateTimePickerComponent(
         )
         {
             TimePicker(state = timePickerState)
+
         }
     }
     return "$date At $time"
@@ -449,7 +467,8 @@ fun ReservationResultDialog(
                     onDismissRequest = { },
                     onConfirmation = onConfirmation,
                     dialogTitle = "Table Reserved Successfully",
-                    dialogText = "Thank you! Your reservation has been registered",
+                    dialogText = "Thank you! Your reservation has been registered, you can find it in the" +
+                            "Reservation section",
                     icon = Icons.Default.InsertInvitation
                 )
             }

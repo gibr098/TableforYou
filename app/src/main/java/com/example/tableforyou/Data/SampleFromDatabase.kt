@@ -99,7 +99,7 @@ class MyData {
 
 
     }
-    fun postReview(note:String, vote: Int, restorant: Restorant){
+    fun postReview(note:String, vote: Int, img: String?, restorant: Restorant){
         database = Firebase
             .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
             .reference
@@ -123,6 +123,7 @@ class MyData {
             Users.getUser(user.name).reservations.add(reservation)
         }else{
             Users.list.add(user)
+            Users.getUser(user.name).reservations.add(reservation)
         }
         for(elem in RestorantList.getRestorant((table.restorantname)).tables){
             if(elem.num == table.num){
@@ -150,6 +151,7 @@ class MyData {
             Users.getUser(user.name).preferred.add(restorant)
         }else{
             Users.list.add(user)
+            Users.getUser(user.name).preferred.add(restorant)
         }
 
         writeUser1(user)
@@ -167,6 +169,7 @@ class MyData {
             Users.getUser(user.name).preferred.remove(restorant)
         }else{
             Users.list.add(user)
+            Users.getUser(user.name).preferred.remove(restorant)
         }
 
         writeUser1(user)

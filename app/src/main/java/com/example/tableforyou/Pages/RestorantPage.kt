@@ -44,7 +44,8 @@ import com.example.tableforyou.Data.RISTORANTI.RISTORANTIDADB
 import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Data.Table
 import com.example.tableforyou.Data.UTENTIDADB
-import com.example.tableforyou.Elements.FavoriteButton
+import com.example.tableforyou.Elements.FavoriteButtonNO
+import com.example.tableforyou.Elements.FavoriteButtonOK
 import com.example.tableforyou.Elements.ReservationScreen
 import com.example.tableforyou.Elements.RestorantNavigationBar
 import com.example.tableforyou.Elements.RestorantRankStars
@@ -204,11 +205,10 @@ fun RestorantPage(
                             horizontalAlignment = Alignment.End
                         ) {
                             if(UTENTIDADB.preferred.contains(restorant)){
-                            FavoriteButton(
-                                restorant,
-                                addToFavorite = addToFavorite,
-                                removeFromFavorite = removeFromFavorite
-                            )}
+                                FavoriteButtonOK()
+                            }else{
+                                FavoriteButtonNO()
+                            }
                             //ActivateButton(openCamera=openCamera)
                             ReviewButton(onButtonClicked = onButtonClicked, restorant)
                         }

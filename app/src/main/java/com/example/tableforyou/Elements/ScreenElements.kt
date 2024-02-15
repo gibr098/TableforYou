@@ -79,11 +79,8 @@ fun FavoriteButton(
     //var pressed by  remember{ mutableStateOf(true) }
 
 
-    var b=true
-    for (r in UTENTIDADB.preferred) {
-        if(r.name == res.name) b = false else b = true
-    }
-    var pressed by rememberSaveable {mutableStateOf(false)}
+
+    var pressed by rememberSaveable {mutableStateOf(UTENTIDADB.preferred.contains(res))}
     var contentcol by remember{ mutableStateOf(Color.LightGray) }
     Button(
         onClick =  {
@@ -280,5 +277,59 @@ fun RestorantRankStars(restorant: Restorant){
             )
     }
 
+}
+
+@Composable
+fun FavoriteButtonOK() {
+    Spacer(modifier = Modifier.width(170.dp)) //questo è temporaneo
+    Button(
+        onClick =  { } ,
+        shape = CircleShape,
+        modifier = Modifier
+            .size(60.dp)
+            .padding(all = 10.dp)
+            .clickable { },
+        contentPadding = PaddingValues(all = 5.dp),
+        elevation = ButtonDefaults.buttonElevation(defaultElevation =  25.dp, pressedElevation = 25.dp),
+        enabled = false,
+        colors = ButtonDefaults.buttonColors(
+            disabledContainerColor = Color.White ,
+            disabledContentColor = Color.Red
+        )
+    ) {
+        Icon(
+            Icons.Rounded.Favorite, //Icons.Rounded.FavoriteBorder,
+            contentDescription = null,
+            //tint = Color.Red,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
+@Composable
+fun FavoriteButtonNO() {
+    Spacer(modifier = Modifier.width(170.dp)) //questo è temporaneo
+    Button(
+        onClick =  { } ,
+        shape = CircleShape,
+        modifier = Modifier
+            .size(60.dp)
+            .padding(all = 10.dp)
+            .clickable { },
+        contentPadding = PaddingValues(all = 5.dp),
+        elevation = ButtonDefaults.buttonElevation(defaultElevation =  25.dp, pressedElevation = 25.dp),
+        enabled = false,
+        colors = ButtonDefaults.buttonColors(
+            disabledContainerColor = Color.White ,
+            disabledContentColor = Color.LightGray
+        )
+    ) {
+        Icon(
+            Icons.Rounded.Favorite, //Icons.Rounded.FavoriteBorder,
+            contentDescription = null,
+            //tint = Color.Red,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
 }
 

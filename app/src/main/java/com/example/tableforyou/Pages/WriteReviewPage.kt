@@ -1,5 +1,6 @@
 package com.example.tableforyou.Pages
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Reviews
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -24,6 +27,7 @@ import com.example.tableforyou.Camera.CameraActivity
 import com.example.tableforyou.Data.MyData
 import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Data.RestorantList
+import com.example.tableforyou.Elements.AlertDialogExample
 import com.example.tableforyou.Elements.ReviewStarsClickable
 import com.example.tableforyou.Elements.UpBarRev
 import com.example.tableforyou.MainActivity
@@ -35,7 +39,8 @@ fun WriteReviewPage(
     //restorant: Restorant,
     openCamera: () -> Unit,
     wrpId: String? = RestorantList.list.first().name,
-    addImage:()->Unit
+    addImage:()->Unit,
+
 ){
     val restorant = remember(wrpId) { RestorantList.getRestorant(wrpId) }
         WriteReviewBox(onBackClickedRev = onBackClickedRev, restorant, openCamera,addImage)
@@ -48,11 +53,12 @@ fun WriteReviewBox(
     onBackClickedRev: (String) -> Unit = {},
     restorant: Restorant,
     openCamera: () -> Unit,
-    addImage: () -> Unit
+    addImage: () -> Unit,
     ) {
     var text by remember { mutableStateOf("") }
     var vote by remember { mutableStateOf(0) }
     var rev by remember { mutableStateOf(false) }
+    var showReviewResult by remember { mutableStateOf(false) }
 
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -81,17 +87,29 @@ fun WriteReviewBox(
                 Text("Take Image from gallery")
             }
             TextButton(
-                onClick = { rev=true ; MyData().postReview(text,vote,restorant)},
+                onClick = { rev=true ;
+                    var i = Uri.EMPTY
+                    if(photoTaken) i = CameraActivity().getPhotorev()
+                    else if (imageAdded) i = MainActivity().getImagerev()
+                    MyData().postReview(text, vote, i.toString(), restorant,); showReviewResult = true},
                 enabled = if( vote == 0 ){false} else {true}
                 ) {
 
                 Text("Confirm")
             }
+            if (showReviewResult) {
+                ReviewResultDialog(
+                    onConfirmation = {
+                        showReviewResult = false
+                        onBackClickedRev(restorant.name)
+                                     },)
+            }
 
             if(rev){
-                var i = CameraActivity().getPhotorev()
-                if(photoTaken) i = CameraActivity().getPhotorev()
-                else if (imageAdded) i = MainActivity().getImagerev()
+                //var i = CameraActivity().getPhotorev()
+                //var i = Uri.EMPTY
+                //if(photoTaken) i = CameraActivity().getPhotorev()
+                //else if (imageAdded) i = MainActivity().getImagerev()
                 //completeReview(img = i  , note = text, vote = vote, user = Users.list[0])
                 //MyData().postReview(text,vote,restorant)
             }
@@ -117,4 +135,17 @@ fun WriteReviewBox(
             )
         }
     }
+}
+
+@Composable
+fun ReviewResultDialog(
+    onConfirmation: () -> Unit
+){
+    AlertDialogExample(
+        onDismissRequest = { },
+        onConfirmation = onConfirmation,
+        dialogTitle = "Review posted!",
+        dialogText = "Thank you for your review! We hope that you have had a great time with us",
+        icon = Icons.Default.Reviews
+    )
 }
