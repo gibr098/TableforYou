@@ -9,7 +9,7 @@ data class User(
     val mail: String = "",
     val profile_img: String = "",
     val preferred: MutableList<Restorant> = mutableListOf(),
-    val reservations: List<Reservation> = listOf(),
+    val reservations: MutableList<Reservation> = mutableListOf(),
     val reviews: List<Review> = listOf()
 )
 
@@ -44,15 +44,23 @@ data class Plate(
 data class Table(
     val num: Int = 0,
     val seats: Int = 0,
-    val restorant: Restorant? = Restorant(),
-    val reserved: Boolean = false,
-    val reservation: Reservation? = Reservation()
+    val restorantname: String = "",
+    val restorantlogo: Int = 0,
+    //val restorant: Restorant? = Restorant(),
+    var reserved: Boolean = false,
+    val reservations : MutableList<ResInstance> = mutableListOf()
+    //val reservation: Reservation? = Reservation()
+)
+data class ResInstance(
+    val resUser: String = "",
+    val resData: String = ""
 )
 
 data class Reservation(
-    //val table: Table = Table(),
-    val data: Int = 0,
-    val user: User= User()
+    val table: Table = Table(),
+    val data: String = "",
+    //val restorantlogo: Int = 0
+    //val user: User= User()
 )
 
 /*

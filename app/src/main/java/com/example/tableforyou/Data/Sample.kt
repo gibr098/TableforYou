@@ -16,21 +16,34 @@ object Users {
                 //RestorantList.list[0],
                 //RestorantList.list[2]
             ),
-            reservations = listOf(),
+            reservations = mutableListOf(
+
+                Reservation(
+                    table = Table(6,12,"Pizzeria da Ciro",R.drawable.muzon,true),
+                    data = "Monday at 21.40",
+
+                ),
+                Reservation(
+                    table = Table(9,10,"Il cinghiale contento",R.drawable.cinghiale,true),
+                    data = "Saturday at 19.30",
+
+                ),
+
+            ),
             reviews = listOf(),
         ),
         User(
             name = "Axel",
             profile_img = path + R.drawable.axel,
             preferred = mutableListOf<Restorant>(),
-            reservations = listOf(),
+            reservations = mutableListOf(),
             reviews = listOf(),
         ),
         User(
             name = "Franchino",
             profile_img = path + R.drawable.cinghiale,
             preferred = mutableListOf<Restorant>(),
-            reservations = listOf(),
+            reservations = mutableListOf(),
             reviews = listOf(),
         )
 
@@ -44,35 +57,42 @@ object Users {
 object PizzeriaCiroTables {
     val list: List<Table> = listOf(
         Table(
-            num = 1,
+            num = 11,
             seats = 8,
-            restorant = null, //RestorantList.list[0],
-            reserved = true,
-            reservation = null
+            restorantname = "Pizzeria da Ciro",
+            restorantlogo = R.drawable.muzon,
+            reserved = false,
+            //reservation = null
         ),
         Table(
-            num = 2,
+            num = 12,
             seats = 6,
-            restorant = null, //RestorantList.list[0],
+            restorantname = "Pizzeria da Ciro",
+            restorantlogo = R.drawable.muzon,
             reserved = false,
-            reservation = null
+            //reservation = null
         ),
         Table(
-            num = 3,
+            num = 13,
             seats = 4,
-            restorant = null, //RestorantList.list[0],
-            reserved = true,
-            reservation = null
+            restorantname = "Pizzeria da Ciro",
+            restorantlogo = R.drawable.muzon,
+            reserved = false,
+            //reservation = null
         ),
         Table(
-            num = 4,
+            num = 14,
             seats = 8,
-            restorant = null, //RestorantList.list[0],
+            restorantname = "Pizzeria da Ciro",
+            restorantlogo = R.drawable.muzon,
             reserved = false,
-            reservation = null
+            //reservation = null
         )
 
     )
+    fun getTable(num : Int): Table {
+        return PizzeriaCiroTables.list.first { it.num == num }
+    }
 }
 
 object PizzeriaCiroReviews {
@@ -217,42 +237,50 @@ val menupizzaCiro=listOf(
 object TrattoriaPicchioRossoTables {
     val list: List<Table> = listOf(
         Table(
-            num = 1,
+            num = 21,
             seats = 4,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
-        ),
-        Table(
-            num = 2,
-            seats = 6,
-            restorant = null,//RestorantList.list[1],
+            restorantname = "Il picchio rosso",
+            restorantlogo = R.drawable.picchio,
             reserved = false,
-            reservation = null
+            //reservation = null
         ),
         Table(
-            num = 3,
+            num = 22,
+            seats = 6,
+            restorantname = "Il picchio rosso",
+            restorantlogo = R.drawable.picchio,
+            reserved = false,
+            //reservation = null
+        ),
+        Table(
+            num = 23,
             seats = 5,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
-        ),
-        Table(
-            num = 4,
-            seats = 12,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
-        ),
-        Table(
-            num = 5,
-            seats = 6,
-            restorant = null,//RestorantList.list[1],
+            restorantname = "Il picchio rosso",
+            restorantlogo = R.drawable.picchio,
             reserved = false,
-            reservation = null
+            //reservation = null
+        ),
+        Table(
+            num = 24,
+            seats = 12,
+            restorantname = "Il picchio rosso",
+            restorantlogo = R.drawable.picchio,
+            reserved = false,
+            //reservation = null
+        ),
+        Table(
+            num = 25,
+            seats = 6,
+            restorantname = "Il picchio rosso",
+            restorantlogo = R.drawable.picchio,
+            reserved = false,
+            //reservation = null
         )
 
     )
+    fun getTable(num : Int): Table {
+        return TrattoriaPicchioRossoTables.list.first { it.num == num }
+    }
 }
 
 object TrattoriaPicchioRossoReviews {
@@ -356,49 +384,58 @@ object MenuTrattoriaPicchioRosso {
 object RistoranteTagliereVolanteTables {
     val list: List<Table> = listOf(
         Table(
-            num = 1,
+            num = 31,
             seats = 4,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
-        ),
-        Table(
-            num = 2,
-            seats = 6,
-            restorant = null,// RestorantList.list[1],
+            restorantname = "Il tagliere volante",
+            restorantlogo = R.drawable.muzon,
             reserved = false,
-            reservation = null
+            //reservation = null
         ),
         Table(
-            num = 3,
+            num = 32,
+            seats = 6,
+            restorantname = "Il tagliere volante",
+            restorantlogo = R.drawable.muzon,
+            reserved = false,
+            //reservation = null
+        ),
+        Table(
+            num = 33,
             seats = 5,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
-        ),
-        Table(
-            num = 4,
-            seats = 12,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
-        ),
-        Table(
-            num = 5,
-            seats = 6,
-            restorant = null,//RestorantList.list[1],
+            restorantname = "Il tagliere volante",
+            restorantlogo = R.drawable.muzon,
             reserved = false,
-            reservation = null
+            //reservation = null
+        ),
+        Table(
+            num = 34,
+            seats = 12,
+            restorantname = "Il tagliere volante",
+            restorantlogo = R.drawable.muzon,
+            reserved = false,
+            //reservation = null
+        ),
+        Table(
+            num = 35,
+            seats = 6,
+            restorantname = "Il tagliere volante",
+            restorantlogo = R.drawable.muzon,
+            reserved = false,
+            //reservation = null
         ),
 	Table(
-            num = 6,
+            num = 36,
             seats = 2,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
+            restorantname = "Il tagliere volante",
+            restorantlogo = R.drawable.muzon,
+            reserved = false,
+            //reservation = null
         ),
 
     )
+    fun getTable(num : Int): Table {
+        return RistoranteTagliereVolanteTables.list.first { it.num == num }
+    }
 }
 
 object RistoranteTagliereVolanteReviews {
@@ -538,34 +575,41 @@ object MenuRistoranteTagliereVolante {
 object PanissimoTables {
     val list: List<Table> = listOf(
         Table(
-            num = 1,
+            num = 41,
             seats = 4,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
-        ),
-        Table(
-            num = 2,
-            seats = 4,
-            restorant = null,//RestorantList.list[1],
+            restorantname = "Paninissimo",
+            restorantlogo = R.drawable.axel,
             reserved = false,
-            reservation = null
+            //reservation = null
         ),
         Table(
-            num = 3,
+            num = 42,
+            seats = 4,
+            restorantname = "Paninissimo",
+            restorantlogo = R.drawable.axel,
+            reserved = false,
+            //reservation = null
+        ),
+        Table(
+            num = 43,
             seats = 2,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
+            restorantname = "Paninissimo",
+            restorantlogo = R.drawable.axel,
+            reserved = false,
+            //reservation = null
         ),
         Table(
-            num = 4,
+            num = 44,
             seats = 12,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
+            restorantname = "Paninissimo",
+            restorantlogo = R.drawable.axel,
+            reserved = false,
+            //reservation = null
         ),
     )
+    fun getTable(num : Int): Table {
+        return PanissimoTables.list.first { it.num == num }
+    }
 }
 
 object PanissimoReviews {
@@ -664,49 +708,59 @@ object MenuPanissimo {
 object BettolaCinghialeContentoTables {
     val list: List<Table> = listOf(
         Table(
-            num = 1,
+            num = 51,
             seats = 4,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
-        ),
-        Table(
-            num = 2,
-            seats = 6,
-            restorant = null,//RestorantList.list[1],
+            restorantname = "Il cinghiale contento",
+            restorantlogo = R.drawable.cinghiale,
             reserved = false,
-            reservation = null
+            //reservation = null
         ),
         Table(
-            num = 3,
+            num = 52,
+            seats = 6,
+            restorantname = "Il cinghiale contento",
+            restorantlogo = R.drawable.cinghiale,
+            reserved = false,
+            //reservation = null
+        ),
+        Table(
+            num = 53,
             seats = 8,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
-        ),
-        Table(
-            num = 4,
-            seats = 2,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
-        ),
-        Table(
-            num = 5,
-            seats = 6,
-            restorant = null,//RestorantList.list[1],
+            restorantname = "Il cinghiale contento",
+            restorantlogo = R.drawable.cinghiale,
             reserved = false,
-            reservation = null
+            //reservation = null
+        ),
+        Table(
+            num = 54,
+            seats = 2,
+            restorantname = "Il cinghiale contento",
+            restorantlogo = R.drawable.cinghiale,
+            reserved = false,
+            //reservation = null
+        ),
+        Table(
+            num = 55,
+            seats = 6,
+            restorantname = "Il cinghiale contento",
+            restorantlogo = R.drawable.cinghiale,
+            reserved = false,
+            //reservation = null
         ),
 	Table(
-            num = 6,
+            num = 56,
             seats = 10,
-            restorant = null,//RestorantList.list[1],
-            reserved = true,
-            reservation = null
+            restorantname = "Il cinghiale contento",
+            restorantlogo = R.drawable.cinghiale,
+            reserved = false,
+            //reservation = null
         ),
 
+
     )
+    fun getTable(num : Int): Table {
+        return BettolaCinghialeContentoTables.list.first { it.num == num }
+    }
 }
 
 object BettolaCinghialeContentoReviews {
@@ -858,7 +912,7 @@ object RestorantList{
         ),
         Restorant(
             name ="Il cinghiale contento",  
-            tipo = "Bettola",
+            tipo = "Osteria",
             via = "via niso 4",
             logo = R.drawable.cinghiale,
             card_img = R.drawable.bistecca,

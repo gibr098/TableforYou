@@ -31,6 +31,7 @@ import com.example.tableforyou.Data.MyData
 import com.example.tableforyou.Data.PREFERITIUTENTE
 import com.example.tableforyou.Data.RISTORANTI.RISTORANTIDADB
 import com.example.tableforyou.Data.Restorant
+import com.example.tableforyou.Data.Table
 import com.example.tableforyou.Data.UTENTIDADB
 import com.example.tableforyou.Data.User
 import com.example.tableforyou.Elements.BottomNavigationBar
@@ -374,7 +375,11 @@ fun MyApp(
 
                 },
                 removeFromFavorite = {
-                    restorant ->MyData().removeRestorantFromFavorites(restorant, UTENTIDADB)
+                    restorant -> MyData().removeRestorantFromFavorites(restorant, UTENTIDADB)
+
+                },
+                confirmReservation = {
+                    table: Table, data: String ->  MyData().addReservation(data, table, UTENTIDADB)
 
                 }
             )

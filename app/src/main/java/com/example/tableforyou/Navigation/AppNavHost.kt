@@ -9,8 +9,10 @@ import androidx.navigation.compose.composable
 import com.example.tableforyou.Authentication.CreateAccountForm
 import com.example.tableforyou.Authentication.LoginForm
 import com.example.tableforyou.Data.Restorant
+import com.example.tableforyou.Data.Table
 import com.example.tableforyou.Pages.FavoriteScreen
 import com.example.tableforyou.Pages.HomeScreen
+import com.example.tableforyou.Pages.ReservationsScreen
 import com.example.tableforyou.Pages.RestorantPageScreen
 import com.example.tableforyou.Pages.SettingsScreen
 import com.example.tableforyou.Pages.WriteReviewPage
@@ -27,7 +29,8 @@ fun AppNavHost(
     SignOUT: ()->Unit,
     addImage:()->Unit,
     addToFavorite: (Restorant)-> Unit,
-    removeFromFavorite: (Restorant) -> Unit
+    removeFromFavorite: (Restorant) -> Unit,
+    confirmReservation: (Table, String) -> Unit
 ){
 
     NavHost(
@@ -101,11 +104,12 @@ fun AppNavHost(
                     navController.navigateToSingleRestorantWriteReview(wrp_id)},
                 openCamera = openCamera,
                 addToFavorite = addToFavorite,
-                removeFromFavorite = removeFromFavorite
+                removeFromFavorite = removeFromFavorite,
+                confirmReservation = confirmReservation
                 )
         }
         composable(route = Reservations.route) {
-            //ReservationsScreen()
+            ReservationsScreen()
         }
         composable(route = Favorite.route) {
             FavoriteScreen(onClickOpenRestorant = { restorantId ->
@@ -154,7 +158,8 @@ fun AppNavHost2(
     SignOUT: ()->Unit,
     pickPhoto:()->Unit,
     addToFavorite: (Restorant)-> Unit,
-    removeFromFavorite: (Restorant) -> Unit
+    removeFromFavorite: (Restorant) -> Unit,
+    confirmReservation: (Table,String) -> Unit
 ){
 
     NavHost(
@@ -228,12 +233,13 @@ fun AppNavHost2(
                     navController.navigateToSingleRestorantWriteReview(wrp_id)},
                 openCamera = openCamera,
                 addToFavorite = addToFavorite,
-                removeFromFavorite = removeFromFavorite
+                removeFromFavorite = removeFromFavorite,
+                confirmReservation = confirmReservation
 
             )
         }
         composable(route = Reservations.route) {
-            //ReservationsScreen()
+            ReservationsScreen()
         }
         composable(route = Favorite.route) {
             FavoriteScreen(onClickOpenRestorant = { restorantId ->

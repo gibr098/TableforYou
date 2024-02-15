@@ -2,13 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="ActivityResultLauncher">
-        <State />
-      </entry>
       <entry key="EmailPasswordActivity">
         <State />
       </entry>
       <entry key="GoogleSignInActivity">
+        <State />
+      </entry>
+      <entry key="InitDB">
         <State />
       </entry>
       <entry key="MainActivity">

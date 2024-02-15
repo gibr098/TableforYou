@@ -42,6 +42,8 @@ import com.example.tableforyou.Data.Plate
 import com.example.tableforyou.Data.RISTORANTI
 import com.example.tableforyou.Data.RISTORANTI.RISTORANTIDADB
 import com.example.tableforyou.Data.Restorant
+import com.example.tableforyou.Data.Table
+import com.example.tableforyou.Data.UTENTIDADB
 import com.example.tableforyou.Elements.FavoriteButton
 import com.example.tableforyou.Elements.ReservationScreen
 import com.example.tableforyou.Elements.RestorantNavigationBar
@@ -62,7 +64,8 @@ fun RestorantPageScreen(
     onButtonClicked: (String) -> Unit = {},
     openCamera: () -> Unit,
     addToFavorite: (Restorant)-> Unit,
-    removeFromFavorite: (Restorant) -> Unit
+    removeFromFavorite: (Restorant) -> Unit,
+    confirmReservation: (Table, String) -> Unit
 ){
 
     //val restorant = remember(restorantId) { RestorantList.getRestorant(restorantId) }
@@ -74,7 +77,8 @@ fun RestorantPageScreen(
             openCamera,
             onButtonClicked,
             addToFavorite,
-            removeFromFavorite
+            removeFromFavorite,
+            confirmReservation
             )
     }
 
@@ -86,7 +90,8 @@ fun RestorantScreen(
     openCamera: () -> Unit,
     onButtonClicked: (String) -> Unit ={},
     addToFavorite: (Restorant)-> Unit,
-    removeFromFavorite: (Restorant) -> Unit
+    removeFromFavorite: (Restorant) -> Unit,
+    confirmReservation: (Table,String) -> Unit
 ) {
     //Restorants1(RestorantList.list)
     //RestorantPage(restorant = RestorantList.list[0])
@@ -95,7 +100,8 @@ fun RestorantScreen(
         openCamera = openCamera,
         onButtonClicked = onButtonClicked,
         addToFavorite = addToFavorite,
-        removeFromFavorite = removeFromFavorite)
+        removeFromFavorite = removeFromFavorite,
+        confirmReservation = confirmReservation)
 
 }
 
@@ -106,7 +112,8 @@ fun RestorantPage(
     openCamera: () -> Unit,
     onButtonClicked: (String) -> Unit={},
     addToFavorite: (Restorant)-> Unit,
-    removeFromFavorite: (Restorant) -> Unit
+    removeFromFavorite: (Restorant) -> Unit,
+    confirmReservation: (Table,String) -> Unit
 ) {
     var ayt by remember { mutableStateOf(false) }
     var menuClicked by remember { mutableStateOf(true) }
@@ -196,11 +203,12 @@ fun RestorantPage(
                         Column(
                             horizontalAlignment = Alignment.End
                         ) {
+                            if(UTENTIDADB.preferred.contains(restorant)){
                             FavoriteButton(
                                 restorant,
                                 addToFavorite = addToFavorite,
                                 removeFromFavorite = removeFromFavorite
-                            )
+                            )}
                             //ActivateButton(openCamera=openCamera)
                             ReviewButton(onButtonClicked = onButtonClicked, restorant)
                         }
@@ -220,7 +228,10 @@ fun RestorantPage(
                     MenuColumn(restorant)//, ayt)
                 }
                 if( reserveClicked ) {
-                    ReservationScreen(restorant)
+                    ReservationScreen(
+                        restorant,
+                        confirmReservation
+                    )
                 }
                 if  (reviewsClicked)  {
                     ReviewColumn(reviews = restorant.reviews)

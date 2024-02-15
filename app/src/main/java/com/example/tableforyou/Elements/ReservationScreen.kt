@@ -1,6 +1,7 @@
 package com.example.tableforyou.Elements
 
 
+//import androidx.compose.ui.tooling.data.EmptyGroup.data
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
 import androidx.compose.foundation.background
@@ -15,7 +16,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.InsertInvitation
+import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -41,6 +45,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -49,9 +54,22 @@ import com.example.tableforyou.Data.Table
 import java.util.Calendar
 
 
+//var DATA by mutableStateOf("")
 
 @Composable
-fun ReservationScreen(restorant: Restorant){
+fun ReservationScreen(
+    restorant: Restorant,
+    confirmReservation: (Table,String) -> Unit
+){
+
+    var DATA by remember {
+        mutableStateOf("")
+    }
+
+    var view by remember {
+        mutableStateOf(true)
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -59,9 +77,19 @@ fun ReservationScreen(restorant: Restorant){
         horizontalArrangement = Arrangement.Center
     ) {
 
-        TabledropdownMenu(restorant.tables)
+        //tab = TabledropdownMenu(restorant,DATA,restorant.tables)
+
+        if(view) {
+            DATA = DateTimePickerComponent(restorant,changeView = {view = false})
+        }else{
+            TabledropdownMenu(restorant,DATA, confirmReservation, restorant.tables)
+        }
     }
-        DateTimePickerComponent()
+
+
+    //TabledropdownMenu(restorant,DATA,restorant.tables)
+
+    //TableSelection(restorant = restorant, date = DATA, confirmReservation = confirmReservation)
 
 }
 
@@ -90,11 +118,14 @@ fun Table(onClick: ()-> Unit, table: Table){
     )
 }
 
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TabledropdownMenu(tables: List<Table>) {
+fun TabledropdownMenu(
+    restorant: Restorant,
+    data: String,
+    confirmReservation: (Table,String) -> Unit,
+    tables: List<Table>
+){
     var isExpanded by remember {
         mutableStateOf(false)
     }
@@ -103,49 +134,82 @@ fun TabledropdownMenu(tables: List<Table>) {
         mutableStateOf("")
     }
 
-    ExposedDropdownMenuBox(
-        expanded = isExpanded,
-        onExpandedChange = { newValue ->
-            isExpanded = newValue
-        },
-    ) {
-        TextField(
-        value = tablen,
-        onValueChange = {},
-        readOnly = true,
-        trailingIcon = {
-            ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
-        },
-        placeholder = {
-            Text(text = "Please select your table")
-        },
-        colors = ExposedDropdownMenuDefaults.textFieldColors(),
-        modifier = Modifier.menuAnchor()
-    )
-        ExposedDropdownMenu(
-            expanded = isExpanded,
-            onDismissRequest = {
-                isExpanded = false
-            }
-        ) {
-            //Tables(onClick = { table = "Table"; isExpanded = false}, PizzeriaTables.list)
-            for(table in tables){
-                //Table(onClick = onClick, table )
-                DropdownMenuItem(
-                    text = {
-                        Row {
-                            Text(text = "Table ${table.num} (${table.seats} seats) ")
-                            if(table.reserved) {
-                                Icon(Icons.Rounded.Clear, contentDescription = "taken")
-                                Text(text = "Reserved")
-                            }
-                        }
-                    },
-                    onClick = { tablen = "Table ${table.num}(${table.seats} seats)"; isExpanded = false},
-                    enabled = !table.reserved
-                )
-            }
+    var tab by remember {
+        mutableStateOf(Table())
+    }
 
+    var showReservationResult by remember { mutableStateOf(false) }
+    var confirmed by remember { mutableStateOf(true) }
+    var tableSelected by remember { mutableStateOf(false)}
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        ExposedDropdownMenuBox(
+            expanded = isExpanded,
+            onExpandedChange = { newValue ->
+                isExpanded = newValue
+            },
+        ) {
+            TextField(
+                value = tablen,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
+                },
+                placeholder = {
+                    Text(text = "Please select your table")
+                },
+                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                modifier = Modifier.menuAnchor()
+            )
+            ExposedDropdownMenu(
+                expanded = isExpanded,
+                onDismissRequest = {
+                    isExpanded = false
+                }
+            ) {
+                //Tables(onClick = { table = "Table"; isExpanded = false}, PizzeriaTables.list)
+                for (table in tables) {
+                    //Table(onClick = onClick, table )
+
+                    DropdownMenuItem(
+                        text = {
+                            Row {
+                                Text(text = "Table ${table.num} (${table.seats} seats) ")
+                                if (table.reserved) {
+                                    Icon(Icons.Rounded.Clear, contentDescription = "taken")
+                                    Text(text = "Reserved")
+                                }
+                            }
+                        },
+                        onClick = {
+                            tablen = "Table ${table.num}(${table.seats} seats)";
+                            isExpanded = false
+                            tableSelected = true
+                            for (t in restorant.tables) {
+                                if (t.num == table.num) {
+                                    tab = table
+                                }
+                                /*
+                            for (e in t.reservations){
+                                if(e.resData == DATA){
+                                    table.reserved = true
+                                    MyData().writeRestorant(restorant,restorant.name)
+                                }
+                            }*/
+
+                            }
+                        },
+                        enabled = !table.reserved
+                    )
+                }
+
+                /*
             DropdownMenuItem(
                 text = {
                     Text(text = "Table (4 seats)")
@@ -154,18 +218,51 @@ fun TabledropdownMenu(tables: List<Table>) {
                     tablen = "Table (4 seats)"
                     isExpanded = false
                 }
-            )
+            )*/
+            }
+        }
+        if (tableSelected) {
+            //DATA = "$date At $time"
+            Spacer(modifier = Modifier.padding(all = 30.dp))
+            Button(
+                onClick = { showReservationResult = true; confirmReservation(tab, data) }, // =true}
+                //onClick = { confirmReservation(tab,"$date At $time"); showReservationResult = true; DATA = "" },
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp),
+                //colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+            ) {
+                Text(text = "Confirm")
+            }
+            if (showReservationResult) {
+                if (confirmed) {
+                    ReservationResultDialog(
+                        onConfirmation = { showReservationResult = false },
+                    )
+                } else {
+                    ReservationResultDialog2(
+                        onConfirmation = { showReservationResult = false },
+                    )
+                }
+            }
         }
     }
+
 }
 
 
 @SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DateTimePickerComponent() {
+fun DateTimePickerComponent(
+    //tab: Table,
+    //confirmReservation: (Table,String)-> Unit
+    restorant: Restorant,
+    changeView: () -> Unit
+): String{
     val datePickerState = rememberDatePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
+    //var showReservationResult by remember { mutableStateOf(false) }
+
+    //var confirmed by remember { mutableStateOf(true) }
 
     val timePickerState = rememberTimePickerState(is24Hour = true)
     var showTimePicker by remember { mutableStateOf(false) }
@@ -181,7 +278,7 @@ fun DateTimePickerComponent() {
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        //verticalArrangement = Arrangement.Center,
     ) {
         //TabledropdownMenu()
 
@@ -216,13 +313,16 @@ fun DateTimePickerComponent() {
         //Spacer(modifier = Modifier.padding(all = 20.dp))
 
         if (dateSelected and timeSelected) {
+            //DATA = "$date At $time"
             Button(
-                onClick = { },
+                onClick = changeView,
+                //onClick = { confirmReservation(tab,"$date At $time"); showReservationResult = true; DATA = "" },
                 modifier = Modifier.fillMaxWidth(),
                 //colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
             ) {
                 Text(text = "Confirm")
             }
+
         }
 
     }
@@ -258,6 +358,7 @@ fun DateTimePickerComponent() {
         }
     }
 
+
 // time picker component
     if (showTimePicker) {
         TimePickerDialog(
@@ -283,6 +384,8 @@ fun DateTimePickerComponent() {
             TimePicker(state = timePickerState)
         }
     }
+    return "$date At $time"
+
 
 }
 @Composable
@@ -337,3 +440,75 @@ fun TimePickerDialog(
         }
     }
 }
+
+@Composable
+fun ReservationResultDialog(
+    onConfirmation: () -> Unit
+){
+                AlertDialogExample(
+                    onDismissRequest = { },
+                    onConfirmation = onConfirmation,
+                    dialogTitle = "Table Reserved Successfully",
+                    dialogText = "Thank you! Your reservation has been registered",
+                    icon = Icons.Default.InsertInvitation
+                )
+            }
+@Composable
+fun ReservationResultDialog2(
+    onConfirmation: () -> Unit
+){
+    AlertDialogExample(
+        onDismissRequest = { },
+        onConfirmation = onConfirmation,
+        dialogTitle = "Please Select a Table",
+        dialogText = "",
+        icon = Icons.Default.NewReleases
+    )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AlertDialogExample(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    dialogTitle: String,
+    dialogText: String,
+    icon: ImageVector,
+) {
+    AlertDialog(
+        icon = {
+            Icon(icon, contentDescription = "Example Icon")
+        },
+        title = {
+            Text(text = dialogTitle)
+        },
+        text = {
+            Text(text = dialogText)
+        },
+        onDismissRequest = {
+            onDismissRequest()
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onConfirmation()
+                }
+            ) {
+                Text("Confirm")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = {
+                    onDismissRequest()
+                }
+            ) {
+                Text("")
+            }
+        }
+    )
+}
+
+
+

@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.tableforyou.Data.MyData
+import com.example.tableforyou.Data.Table
 import com.example.tableforyou.Data.UTENTIDADB
 import com.example.tableforyou.Data.User
 import com.example.tableforyou.MainActivity
@@ -374,7 +375,10 @@ fun AuthApp(
             SignOUT = SignOUT,
             pickPhoto=pickPhoto,
             addToFavorite = {},
-            removeFromFavorite = {}
+            removeFromFavorite = {},
+            confirmReservation = {
+                                 table: Table, s: String ->  
+            },
         )
 
     }

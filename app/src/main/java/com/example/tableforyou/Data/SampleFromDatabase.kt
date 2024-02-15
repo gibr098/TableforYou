@@ -27,7 +27,7 @@ class MyData {
             name = name,
             profile_img = "",//R.drawable.muzon,
             preferred = mutableListOf(),
-            reservations = listOf(),
+            reservations = mutableListOf(),
             reviews = listOf(),
         )
 
@@ -111,6 +111,36 @@ class MyData {
         //database.child("ReviewsOf${restorant.name}").child("ReviewOf${UTENTIDADB.name}").setValue(rev)
 
     }
+    fun addReservation(data:String, table: Table ,user: User){
+        database = Firebase
+            .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
+            .reference
+
+
+        val ri = ResInstance(user.name,data)
+        val reservation = Reservation(table = table,data = data)
+        if (Users.list.contains(user)){
+            Users.getUser(user.name).reservations.add(reservation)
+        }else{
+            Users.list.add(user)
+        }
+        for(elem in RestorantList.getRestorant((table.restorantname)).tables){
+            if(elem.num == table.num){
+                if(!elem.reservations.contains(ri)){
+                    elem.reservations.add(ResInstance(user.name,data))
+                }
+
+            }
+        }
+
+        writeUser1(user)
+        writeRestorant(RestorantList.getRestorant((table.restorantname)),table.restorantname)
+
+        //database.child("ReviewsOf${restorant.name}").child("ReviewOf${UTENTIDADB.name}").setValue(rev)
+
+    }
+
+
     fun addRestorantToFavorites(restorant: Restorant,user: User){
         database = Firebase
             .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import com.example.tableforyou.Navigation.AppDestination
 import com.example.tableforyou.Navigation.Favorite
 import com.example.tableforyou.Navigation.Home
+import com.example.tableforyou.Navigation.Reservations
 import com.example.tableforyou.Navigation.Settings
 
 
@@ -61,7 +62,7 @@ fun BottomNavigationBar(modifier: Modifier = Modifier, onTabSelected: (AppDestin
 
             },
             selected = false ,
-            onClick = { /*onTabSelected(RestorantPage)*/ },
+            onClick = { onTabSelected(Reservations) },
         )
         NavigationBarItem(
             icon = {
