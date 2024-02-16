@@ -41,7 +41,7 @@ fun LoginPage(){
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = painterResource(R.drawable.muzon),
+                painter = painterResource(R.drawable.logo),
                 //painter = painterResource(res.logo),
                 contentDescription = "App logo",
                 modifier = Modifier

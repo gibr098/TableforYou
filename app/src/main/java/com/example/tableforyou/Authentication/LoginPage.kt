@@ -47,7 +47,7 @@ import com.example.tableforyou.R
             verticalArrangement = Arrangement.Top
         ) {
 
-            Image(painter = painterResource(id = R.drawable.muzon), contentDescription = "icon")
+            Image(painter = painterResource(id = R.drawable.logo), contentDescription = "icon")
             Spacer(modifier = Modifier.padding(all = 20.dp))
             UserInput()
             PasswordTextField()
