@@ -885,6 +885,7 @@ object RestorantList{
             menu = MenuPizzeriaCiro.list,
             reviews = PizzeriaCiroReviews.list,
             rank = computerank(PizzeriaCiroReviews.list),
+            sum = 17,
             tables = PizzeriaCiroTables.list
         ),
         Restorant(
@@ -896,6 +897,7 @@ object RestorantList{
             menu = MenuTrattoriaPicchioRosso.list,
             reviews = TrattoriaPicchioRossoReviews.list,
             rank = computerank(TrattoriaPicchioRossoReviews.list),
+            sum = 21,
             tables = TrattoriaPicchioRossoTables.list
 
         ),
@@ -907,7 +909,8 @@ object RestorantList{
             card_img = R.drawable.tagliere,
             menu = MenuRistoranteTagliereVolante.list,
             reviews = RistoranteTagliereVolanteReviews.list,
-            rank = 4,
+            rank = computerank(RistoranteTagliereVolanteReviews.list),
+            sum = 19,
             tables = RistoranteTagliereVolanteTables.list
 
 
@@ -920,7 +923,8 @@ object RestorantList{
             card_img = R.drawable.paninoteca,
             menu = MenuPanissimo.list,
             reviews = PanissimoReviews.list,
-            rank = 4,
+            rank = computerank((PanissimoReviews.list)),
+            sum = 21,
             tables = PanissimoTables.list
 
 
@@ -933,7 +937,8 @@ object RestorantList{
             card_img = R.drawable.bistecca,
             menu = MenuBettolaCinghialeContento.list,
             reviews = BettolaCinghialeContentoReviews.list,
-            rank = 4,
+            rank = computerank(BettolaCinghialeContentoReviews.list),
+            sum = 18,
             tables = BettolaCinghialeContentoTables.list
 
 

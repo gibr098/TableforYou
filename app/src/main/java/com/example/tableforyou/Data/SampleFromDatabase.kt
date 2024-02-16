@@ -1,11 +1,15 @@
 package com.example.tableforyou.Data
 
+import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.google.firebase.Firebase
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.database
+import com.google.firebase.storage.storage
+import java.io.ByteArrayOutputStream
 
 
 class MyData {
@@ -60,6 +64,43 @@ class MyData {
 
     }
 
+    fun getDownloadUrl(){
+        val storage = Firebase.storage("gs://tableforyou-f235e.appspot.com")
+        var storageRef = storage.reference
+
+        storageRef.child("stregatto.png").downloadUrl.addOnSuccessListener {
+            // Got the download URL for 'users/me/profile.png'
+            Log.w("foto","foto downloaded: $it")
+
+        }.addOnFailureListener {
+            // Handle any errors
+            Log.w("foto","foto NOT downloaded")
+
+        }
+
+    }
+    fun UpProva(bitmap: Bitmap) {
+        // Get a non-default Storage bucket
+        val storage = Firebase.storage("gs://tableforyou-f235e.appspot.com")
+        // Create a storage reference from our app
+        var storageRef = storage.reference
+
+        val mountainsRef = storageRef.child("mountains.png")
+
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        val data = baos.toByteArray()
+
+        var uploadTask = mountainsRef.putBytes(data)
+        uploadTask.addOnFailureListener {
+            // Handle unsuccessful uploads
+        }.addOnSuccessListener { taskSnapshot ->
+            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+            // ...
+        }
+
+    }
+
     fun writeUser(name: String, mail: String, profile_img: String, child: String) {
         database = Firebase
             .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
@@ -104,13 +145,17 @@ class MyData {
             .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
             .reference
 
-        val rev = Review(user = UTENTIDADB, note = note, vote = vote)
+
+        val rev = Review(user = UTENTIDADB, note = note, vote = vote, img = img)
         RestorantList.getRestorant(restorant.name).reviews.add(rev)
+        restorant.sum+=vote
+        restorant.rank =  restorant.sum/RestorantList.getRestorant(restorant.name).reviews.size
         writeRestorant(restorant,restorant.name)
 
         //database.child("ReviewsOf${restorant.name}").child("ReviewOf${UTENTIDADB.name}").setValue(rev)
 
     }
+
     fun addReservation(data:String, table: Table ,user: User){
         database = Firebase
             .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")

@@ -7,18 +7,20 @@ package com.example.tableforyou.Data
 data class User(
     val name: String = "",
     val mail: String = "",
-    val profile_img: String = "",
+    var profile_img: String = "",
     val preferred: MutableList<Restorant> = mutableListOf(),
     val reservations: MutableList<Reservation> = mutableListOf(),
     val reviews: List<Review> = listOf(),
 )
 
 
+
 data class Review (
     val user: User = User(),
     val note: String = "",
     val vote: Int = 0,
-    val img: String? = ""
+    val img: String? = "",
+    //val ft: Bitmap? = Bitmap.createBitmap(1,1, Bitmap.Config.ALPHA_8)
 )
 
 
@@ -31,6 +33,7 @@ data class Restorant(
     val menu: List<Plate> = listOf(),
     val reviews : MutableList<Review> = mutableListOf<Review>(),
     var rank: Int = 0,
+    var sum : Int =0,
     val tables: List<Table> = listOf()
 )
 

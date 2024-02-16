@@ -1,5 +1,6 @@
 package com.example.tableforyou.Navigation
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -30,7 +31,8 @@ fun AppNavHost(
     addImage:()->Unit,
     addToFavorite: (Restorant)-> Unit,
     removeFromFavorite: (Restorant) -> Unit,
-    confirmReservation: (Table, String) -> Unit
+    confirmReservation: (Table, String) -> Unit,
+    UpReviewImg: (Uri)-> Unit
 ){
 
     NavHost(
@@ -78,6 +80,7 @@ fun AppNavHost(
                 //restorant = RestorantList.getRestorant(wrp_restorantId)
                 openCamera = openCamera,
                 addImage = addImage,
+                UpReviewImg = UpReviewImg
 
 
 
@@ -208,6 +211,7 @@ fun AppNavHost2(
                 //restorant = RestorantList.getRestorant(wrp_restorantId)
                 openCamera = openCamera,
                 addImage={},
+                UpReviewImg = {}
 
 
 

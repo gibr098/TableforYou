@@ -2,8 +2,10 @@ package com.example.tableforyou.Camera
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,6 +36,7 @@ import java.util.concurrent.Executors
 
 //var photo by mutableStateOf(Uri.parse("android.resource://com.example.tableforyou/"+ R.drawable.defaultimg))
 lateinit var photo:Uri
+lateinit var fotoprova: Bitmap
 class CameraActivity : ComponentActivity() {
 
 
@@ -58,6 +61,10 @@ class CameraActivity : ComponentActivity() {
 
     fun getPhotorev():Uri{
         return photo
+    }
+
+    fun getPhotoBit():Bitmap{
+        return fotoprova
     }
 
     private fun requestCameraPermission() {
@@ -118,10 +125,16 @@ class CameraActivity : ComponentActivity() {
 
 
             if (shouldShowPhoto.value) {
+
+                var bitmap : Bitmap =  MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri)
+                //Log.w("img","immagine bitmap: $bitmap")
+
                 Column() {
                     UpBar(titolo = "", back = true, onBackClicked = {this@CameraActivity.finish()}, dest = Home)
                     Image(
                         painter = rememberAsyncImagePainter(photoUri),
+                        //painter = ,
+                        //bitmap = bitmap.asImageBitmap(),
                         contentDescription = null,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -136,6 +149,7 @@ class CameraActivity : ComponentActivity() {
                                 photoTaken=true;
                                 imageAdded=false;
                                 photo = photoUri ;
+                                fotoprova = bitmap;
                                 this@CameraActivity.finish() }
                         ){
                             Text("Use this photo")

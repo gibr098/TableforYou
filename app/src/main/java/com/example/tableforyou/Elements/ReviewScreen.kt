@@ -1,7 +1,5 @@
 package com.example.tableforyou.Elements
 
-import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,8 +36,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.core.net.toUri
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.example.tableforyou.Data.Review
 
 @Composable
@@ -76,9 +73,10 @@ fun ReviewCard(modifier: Modifier = Modifier, review: Review) {
             modifier = Modifier.fillMaxSize()
         ) {
             Column() {
-                Image(
-                    painter = rememberAsyncImagePainter(model = Uri.parse(review.user.profile_img)),//painterResource(review.user.profile_img),
+                AsyncImage(
+                    //painter = rememberAsyncImagePainter(model = Uri.parse(review.user.profile_img)),//painterResource(review.user.profile_img),
                     //painter = painterResource(res.logo),
+                    model = review.user.profile_img,
                     contentDescription = "Contact profile picture",
                     modifier = Modifier
                         // Set image size to 40 dp
@@ -156,9 +154,10 @@ fun OpenedReviewCard(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column() {
-                            Image(
-                                painter = rememberAsyncImagePainter(model = Uri.parse(review.user.profile_img)),//painterResource(review.user.profile_img),
+                            AsyncImage(
+                                //painter = rememberAsyncImagePainter(model = Uri.parse(review.user.profile_img)),//painterResource(review.user.profile_img),
                                 //painter = painterResource(res.logo),
+                                model = review.user.profile_img,
                                 contentDescription = "Contact profile picture",
                                 modifier = Modifier
                                     // Set image size to 40 dp
@@ -203,9 +202,10 @@ fun OpenedReviewCard(
                             modifier = Modifier.padding(16.dp),
                         )
                         if (review.img != null) {
-                            Image(
+                            AsyncImage(
                                 //painter = rememberAsyncImagePainter(model = Uri.parse(review.img)),//painterResource(id = review.img!!),
-                                painter = rememberAsyncImagePainter(model = review.img.toUri()),
+                                //painter = rememberAsyncImagePainter(model = review.img.toUri()),
+                                model = review.img,
                                 contentDescription = imageDescription,
                                 contentScale = ContentScale.Fit,
                                 modifier = Modifier

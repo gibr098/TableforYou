@@ -1,8 +1,6 @@
 package com.example.tableforyou.Pages
 
-import android.net.Uri
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.example.tableforyou.Data.UTENTIDADB
 import com.example.tableforyou.Elements.UpBar
 import com.example.tableforyou.Navigation.Home
@@ -42,14 +40,28 @@ fun Settings(
         Column(modifier = Modifier.fillMaxSize()) {
             UpBar("Settings", false, onBackClicked = { }, Home)
             Row(modifier = Modifier.padding(all = 30.dp)) {
-                Image(
+                /*Image(
                     painter = rememberAsyncImagePainter(Uri.parse(UTENTIDADB.profile_img)),
-
                     /*
                     painter = if (EmailPasswordActivity().getUserImg()!=null){
                         rememberAsyncImagePainter(EmailPasswordActivity().getUserImg())
                     } else {painterResource(id = R.drawable.defaultimg)},*/
                     contentDescription = "Contact profile picture",
+                    modifier = Modifier
+                        // Set image size to 40 dp
+                        .size(100.dp)
+                        // Clip image to be shaped as a circle
+                        .clip(CircleShape)
+                        .border(
+                            1.5.dp,
+                            MaterialTheme.colorScheme.primary,
+                            CircleShape
+                        )
+                )*/
+                AsyncImage(
+                    //model = "https://firebasestorage.googleapis.com/v0/b/tableforyou-f235e.appspot.com/o/stregatto.png?alt=media&token=b386cef3-2cfc-4728-a5fd-49bcada70723",
+                    model = UTENTIDADB.profile_img,
+                    contentDescription = "Translated description of what the image contains",
                     modifier = Modifier
                         // Set image size to 40 dp
                         .size(100.dp)

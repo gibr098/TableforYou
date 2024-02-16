@@ -2,9 +2,12 @@ package com.example.tableforyou.Authentication
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -38,6 +41,8 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.storage
+import java.io.ByteArrayOutputStream
 
 private lateinit var database: DatabaseReference
 
@@ -65,14 +70,13 @@ class EmailPasswordActivity : ComponentActivity() {
     fun getUri(): Any { return Profileimg }
     fun getProfImg(): String { return profileimage }
 
-
         val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             // Callback is invoked after the user selects a media item or closes the
             // photo picker.
             if (uri != null) {
                 Log.d("PhotoPicker", "Selected URI: $uri")
-                //Profileimg = uri
+                Profileimg = uri
                 profileimage = uri.toString()
             } else {
                 Log.d("PhotoPicker", "No media selected")
@@ -134,6 +138,18 @@ class EmailPasswordActivity : ComponentActivity() {
                                    // ...
                                }
                            })*/
+                           val storage = com.google.firebase.Firebase.storage("gs://tableforyou-f235e.appspot.com")
+                           var storageRef = storage.reference
+
+                           storageRef.child("${UTENTIDADB.name}Profile_img.jpg").downloadUrl.addOnSuccessListener {
+                               // Got the download URL for 'users/me/profile.png'
+                               Log.w("foto","foto downloaded: $it")
+                               UTENTIDADB.profile_img=it.toString()
+                           }.addOnFailureListener {
+                               // Handle any errors
+                               Log.w("foto","foto NOT downloaded: $it")
+
+                           }
 
                                 },
                        GsignIn = {
@@ -141,18 +157,29 @@ class EmailPasswordActivity : ComponentActivity() {
                            EmailPasswordActivity().baseContext.startActivity(intent)},
                    createAccount = {
                        this.CreateAccount(mail, password) ; password=""
-                       /*
-                       val profileUpdates = userProfileChangeRequest {
-                           displayName = name
-                           photoUri = Profileimg
-                       }
-                       user!!.updateProfile(profileUpdates)
-                           .addOnCompleteListener { task ->
-                               if (task.isSuccessful) {
-                                   Log.d(TAG, "User profile updated.")
-                               }
-                           }*/
                        MyData().writeUser(name, mail, profileimage, name)
+
+                       val storage = com.google.firebase.Firebase.storage("gs://tableforyou-f235e.appspot.com")
+                       val storageRef = storage.reference
+                       val profileimgRef = storageRef.child("${name}Profile_img.jpg")
+
+                       var imageView = ImageView(this)
+                       imageView.setImageURI(Profileimg)
+                       imageView.isDrawingCacheEnabled = true
+                       imageView.buildDrawingCache()
+                       val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+                       val baos = ByteArrayOutputStream()
+                       bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                       val data = baos.toByteArray()
+                       var uploadTask = profileimgRef.putBytes(data)
+                       uploadTask.addOnFailureListener {
+
+                       }.addOnSuccessListener {
+
+                       }
+
+
+
 
                                    },
                    SignOUT = { password=""; profileimage = defaultimg; signOut()},

@@ -1,6 +1,7 @@
 package com.example.tableforyou.Pages
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,8 @@ import com.example.tableforyou.Elements.AlertDialogExample
 import com.example.tableforyou.Elements.ReviewStarsClickable
 import com.example.tableforyou.Elements.UpBarRev
 import com.example.tableforyou.MainActivity
+import com.google.firebase.Firebase
+import com.google.firebase.storage.storage
 
 
 @Composable
@@ -40,10 +43,11 @@ fun WriteReviewPage(
     openCamera: () -> Unit,
     wrpId: String? = RestorantList.list.first().name,
     addImage:()->Unit,
+    UpReviewImg: (Uri)-> Unit
 
 ){
     val restorant = remember(wrpId) { RestorantList.getRestorant(wrpId) }
-        WriteReviewBox(onBackClickedRev = onBackClickedRev, restorant, openCamera,addImage)
+        WriteReviewBox(onBackClickedRev = onBackClickedRev, restorant, openCamera,addImage,UpReviewImg)
 }
 
 var photoTaken by  mutableStateOf(false)
@@ -54,6 +58,7 @@ fun WriteReviewBox(
     restorant: Restorant,
     openCamera: () -> Unit,
     addImage: () -> Unit,
+    UpReviewImg: (Uri)-> Unit
     ) {
     var text by remember { mutableStateOf("") }
     var vote by remember { mutableStateOf(0) }
@@ -87,11 +92,43 @@ fun WriteReviewBox(
                 Text("Take Image from gallery")
             }
             TextButton(
-                onClick = { rev=true ;
-                    var i = Uri.EMPTY
-                    if(photoTaken) i = CameraActivity().getPhotorev()
-                    else if (imageAdded) i = MainActivity().getImagerev()
-                    MyData().postReview(text, vote, i.toString(), restorant,); showReviewResult = true},
+                onClick = {
+                    rev = true;
+                    showReviewResult = true
+
+                    var i = ""
+                    var uri = Uri.EMPTY
+                    if (photoTaken) {
+                        UpReviewImg(CameraActivity().getPhotorev()); uri =
+                            CameraActivity().getPhotorev()
+                    } else if (imageAdded) {
+                        UpReviewImg(MainActivity().getImagerev());uri = MainActivity().getImagerev()
+                    }
+                    photoTaken = false
+                    imageAdded = false
+
+                    val storage = Firebase.storage("gs://tableforyou-f235e.appspot.com")
+                    var storageRef = storage.reference
+
+
+
+                    Thread.sleep(3000)
+                    storageRef.child("${uri.hashCode()}-Review_img.jpg").downloadUrl.addOnSuccessListener {
+                        // Got the download URL for 'users/me/profile.png'
+                        Log.w("foto", "foto review downloaded: $it")
+                        //i = it.toString()
+                        MyData().postReview(text, vote, it.toString(), restorant);
+                    }.addOnFailureListener {
+                        // Handle any errors
+                        Log.w(
+                            "foto",
+                            "foto reviw NOT downloaded: $it urihash: ${uri.hashCode()} and uri: $uri"
+                        )
+
+                    }
+
+                    //MyData().postReview(text, vote, i, restorant); showReviewResult = true},
+                },
                 enabled = if( vote == 0 ){false} else {true}
                 ) {
 

@@ -4,9 +4,12 @@ package com.example.tableforyou
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
@@ -50,6 +53,8 @@ import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import com.google.firebase.database.getValue
+import com.google.firebase.storage.storage
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -67,10 +72,8 @@ private lateinit var query: Query
 /*
 1. USER:
 -FAVORITE (pulsante deve rimanere pressed)
--REVIEWS
--RESERVATION
+-REVIEWS (manca foto)
 
-2.COMPUTERANK
  */
 
 
@@ -220,6 +223,22 @@ class MainActivity : ComponentActivity() {
                 Log.w("mydata", "loadPost:onCancelled", databaseError.toException())
             }
         })
+        val storage = Firebase.storage("gs://tableforyou-f235e.appspot.com")
+        var storageRef = storage.reference
+
+        storageRef.child("${UTENTIDADB.name}Profile_img.jpg").downloadUrl.addOnSuccessListener {
+            // Got the download URL for 'users/me/profile.png'
+            Log.w("foto","foto downloaded: $it")
+            UTENTIDADB.profile_img=it.toString()
+        }.addOnFailureListener {
+            // Handle any errors
+            Log.w("foto","foto NOT downloaded: $it")
+
+        }
+
+
+
+
 
 
     }
@@ -232,7 +251,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     openCamera = {
                         val intent = Intent(this, CameraActivity::class.java)
-                        this.startActivity(intent)},
+                        this.startActivity(intent)
+                    },
                     signOut = {
                         val intent = Intent(this, EmailPasswordActivity::class.java)
                         this.startActivity(intent)
@@ -240,13 +260,41 @@ class MainActivity : ComponentActivity() {
                         PREFERITIUTENTE = mutableListOf()
                         this.finish()
                     },
-                    addImage = { pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo));imageAdded =true; photoTaken =false}
-                    )
+                    addImage = {
+                        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo));imageAdded =
+                        true; photoTaken = false
+                    },
+                    UpReviewImg={ i->
+                        val storage = com.google.firebase.Firebase.storage("gs://tableforyou-f235e.appspot.com")
+                        val storageRef = storage.reference
+                        var h = i.hashCode()
+                        val reviewimgRef = storageRef.child("$h-Review_img.jpg")
+
+                    var imageView = ImageView(this)
+                    imageView.setImageURI(i)
+                    imageView.isDrawingCacheEnabled = true
+                    imageView.buildDrawingCache()
+                    val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+                    val baos = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                    val data = baos.toByteArray()
+                    var uploadTask = reviewimgRef.putBytes(data)
+                    uploadTask.addOnFailureListener {
+                        Log.w("foto","foto not uploaded: $it")
+                    }.addOnSuccessListener {
+                        Log.w("foto","foto review uploaded: $it $i")
+                    }
+
+
+
+
+                    }
+                )
 
 
                 //MyAppR1(modifier = Modifier.fillMaxSize())
 
-            /*
+                /*
                 if (shouldShowCamera.value) {
                     CameraView(
                         outputDirectory = outputDirectory,
@@ -265,13 +313,13 @@ class MainActivity : ComponentActivity() {
             }*/
 
 
-            /* BOUNCINGBALL LOADING SCREEN
+                /* BOUNCINGBALL LOADING SCREEN
                 val bouncingBallView = BouncingBallView(this);
                 setContentView(bouncingBallView);
                 bouncingBallView.setBackgroundColor(Color.WHITE);
                  */
 
-            // OPEN CAMERA TO TAKE FOTO
+                // OPEN CAMERA TO TAKE FOTO
                 /*
                 Button(onClick = {
                     val intent = Intent(this, CameraActivity::class.java)
@@ -279,7 +327,7 @@ class MainActivity : ComponentActivity() {
                 }) {
 
                 }*/
-        }
+            }
 
 
         }
@@ -289,6 +337,8 @@ class MainActivity : ComponentActivity() {
         cameraExecutor = Executors.newSingleThreadExecutor()
 
     }
+
+
 }
 
 
@@ -299,7 +349,8 @@ fun MyApp(
     modifier: Modifier = Modifier,
     openCamera: () -> Unit,
     signOut:()-> Unit,
-    addImage: ()-> Unit
+    addImage: ()-> Unit,
+    UpReviewImg: (Uri)-> Unit
 ) {
     TableforYouTheme {
         //var currentScreen: AppDestination by remember { mutableStateOf(Home) }
@@ -381,7 +432,8 @@ fun MyApp(
                 confirmReservation = {
                     table: Table, data: String ->  MyData().addReservation(data, table, UTENTIDADB)
 
-                }
+                },
+                UpReviewImg = UpReviewImg
             )
 
         }
