@@ -164,7 +164,7 @@ fun ReviewButton(
         onClick = {onButtonClicked(restorant.name)} ,
         shape = RectangleShape,
         modifier = Modifier
-            .fillMaxWidth()
+            .size(width = 100.dp, height = 50.dp)
         ,
         contentPadding = PaddingValues(all = 7.dp),
         elevation = ButtonDefaults.buttonElevation(),

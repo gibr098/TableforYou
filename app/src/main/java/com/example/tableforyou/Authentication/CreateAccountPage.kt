@@ -47,7 +47,7 @@ fun CreateAccountForm(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 100.dp),
+            .padding(vertical = 75.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
@@ -62,7 +62,7 @@ fun CreateAccountForm(
                 .clickable { pickPhoto }
             )
         TextButton(onClick = pickPhoto) { Text("Choose a photo profile")}
-        Spacer(modifier = Modifier.padding(all = 20.dp))
+        Spacer(modifier = Modifier.padding(all = 10.dp))
         NameInput()
         EmailInput()
         PasswordInput()

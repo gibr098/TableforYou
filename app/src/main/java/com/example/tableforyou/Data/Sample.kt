@@ -3,8 +3,7 @@ package com.example.tableforyou.Data
 import com.example.tableforyou.Elements.computerank
 import com.example.tableforyou.R
 
-val muz = R.drawable.muzon
-val gas = R.drawable.axel
+
 val path = "android.resource://com.example.tableforyou/"
 object Users {
     val list : MutableList<User> = mutableListOf(
@@ -33,15 +32,22 @@ object Users {
             reviews = listOf(),
         ),
         User(
-            name = "Axel",
-            profile_img = path + R.drawable.axel,
+            name = "Mario",
+            profile_img = path + R.drawable.mario,
             preferred = mutableListOf<Restorant>(),
             reservations = mutableListOf(),
             reviews = listOf(),
         ),
         User(
             name = "Franchino",
-            profile_img = path + R.drawable.cinghiale,
+            profile_img = path + R.drawable.boxe,
+            preferred = mutableListOf<Restorant>(),
+            reservations = mutableListOf(),
+            reviews = listOf(),
+        ),
+        User(
+            name = "Stregatto",
+            profile_img = path + R.drawable.stregatto,
             preferred = mutableListOf<Restorant>(),
             reservations = mutableListOf(),
             reviews = listOf(),
@@ -60,7 +66,7 @@ object PizzeriaCiroTables {
             num = 11,
             seats = 8,
             restorantname = "Pizzeria da Ciro",
-            restorantlogo = R.drawable.muzon,
+            restorantlogo = R.drawable.ciro,
             reserved = false,
             //reservation = null
         ),
@@ -68,7 +74,7 @@ object PizzeriaCiroTables {
             num = 12,
             seats = 6,
             restorantname = "Pizzeria da Ciro",
-            restorantlogo = R.drawable.muzon,
+            restorantlogo = R.drawable.ciro,
             reserved = false,
             //reservation = null
         ),
@@ -76,7 +82,7 @@ object PizzeriaCiroTables {
             num = 13,
             seats = 4,
             restorantname = "Pizzeria da Ciro",
-            restorantlogo = R.drawable.muzon,
+            restorantlogo = R.drawable.ciro,
             reserved = false,
             //reservation = null
         ),
@@ -84,7 +90,7 @@ object PizzeriaCiroTables {
             num = 14,
             seats = 8,
             restorantname = "Pizzeria da Ciro",
-            restorantlogo = R.drawable.muzon,
+            restorantlogo = R.drawable.ciro,
             reserved = false,
             //reservation = null
         )
@@ -98,7 +104,7 @@ object PizzeriaCiroTables {
 object PizzeriaCiroReviews {
     val list : MutableList<Review> = mutableListOf(
         Review(
-            user = User(),//Users.list[0],
+            user = Users.list[0],
             note = "Very good pizzeria on the center of Naples. Great choice of pizzas and very good prices. The chef is amazing and very funny. I've taken the most famous pizza of naplese the Marinana",
             vote = 5,
             img = "android.resource://com.example.tableforyou/"+ R.drawable.pizza_napoli
@@ -116,17 +122,12 @@ object PizzeriaCiroReviews {
             img = null,
         ),
         Review(
-            user = Users.list[2],
-            note = "I don't like the pizza of this restorant",
-            vote = 1,
+            user = Users.list[3],
+            note = "Siamo tutti pazzi per la pizza di Ciro",
+            vote = 5,
             img = null,
         ),
-        Review(
-            user = Users.list[2],
-            note = "I don't like the pizza of this restorant",
-            vote = 1,
-            img = null,
-        )
+
     )
 }
 
@@ -304,18 +305,20 @@ object TrattoriaPicchioRossoReviews {
             img = null,
         ),
         Review(
-            user = Users.list[0],
+            user = Users.list[3],
+            note = "Non importa cosa prendi, è tutto eccezionale",
+            vote = 5,
+            img = null,
+        ),
+
+        Review(
+            user = Users.list[2],
             note = "I primi non sono arrivati tutti insieme. La grigliata è molto buona.",
             vote = 3,
             img = null,
         ),
-        Review(
-            user = Users.list[1],
-            note = "La grigliata mista era ottima. Il vitello molto tenero!",
-            vote = 5,
-            img = null,
-        ),
     )
+
 }
 
 
@@ -387,7 +390,7 @@ object RistoranteTagliereVolanteTables {
             num = 31,
             seats = 4,
             restorantname = "Il tagliere volante",
-            restorantlogo = R.drawable.muzon,
+            restorantlogo = R.drawable.tv,
             reserved = false,
             //reservation = null
         ),
@@ -395,7 +398,7 @@ object RistoranteTagliereVolanteTables {
             num = 32,
             seats = 6,
             restorantname = "Il tagliere volante",
-            restorantlogo = R.drawable.muzon,
+            restorantlogo = R.drawable.tv,
             reserved = false,
             //reservation = null
         ),
@@ -403,7 +406,7 @@ object RistoranteTagliereVolanteTables {
             num = 33,
             seats = 5,
             restorantname = "Il tagliere volante",
-            restorantlogo = R.drawable.muzon,
+            restorantlogo = R.drawable.tv,
             reserved = false,
             //reservation = null
         ),
@@ -411,7 +414,7 @@ object RistoranteTagliereVolanteTables {
             num = 34,
             seats = 12,
             restorantname = "Il tagliere volante",
-            restorantlogo = R.drawable.muzon,
+            restorantlogo = R.drawable.tv,
             reserved = false,
             //reservation = null
         ),
@@ -419,7 +422,7 @@ object RistoranteTagliereVolanteTables {
             num = 35,
             seats = 6,
             restorantname = "Il tagliere volante",
-            restorantlogo = R.drawable.muzon,
+            restorantlogo = R.drawable.tv,
             reserved = false,
             //reservation = null
         ),
@@ -427,7 +430,7 @@ object RistoranteTagliereVolanteTables {
             num = 36,
             seats = 2,
             restorantname = "Il tagliere volante",
-            restorantlogo = R.drawable.muzon,
+            restorantlogo = R.drawable.tv,
             reserved = false,
             //reservation = null
         ),
@@ -453,13 +456,13 @@ object RistoranteTagliereVolanteReviews {
             img = null,
         ),
         Review(
-            user = User(),//Users.list[0],
+            user = Users.list[0],
             note = "Cibo molto buono. Servizio leggermente lento.",
             vote = 4,
             img = null,
         ),
         Review(
-            user = Users.list[1],
+            user = Users.list[3],
             note = "Antipasto della casa molto buono. I paccheri con il baccalà avevano un sapore molto equilibrato. Il polpo era molto tenero.",
             vote = 5,
             img = null,
@@ -578,7 +581,7 @@ object PanissimoTables {
             num = 41,
             seats = 4,
             restorantname = "Paninissimo",
-            restorantlogo = R.drawable.axel,
+            restorantlogo = R.drawable.panino,
             reserved = false,
             //reservation = null
         ),
@@ -586,7 +589,7 @@ object PanissimoTables {
             num = 42,
             seats = 4,
             restorantname = "Paninissimo",
-            restorantlogo = R.drawable.axel,
+            restorantlogo = R.drawable.panino,
             reserved = false,
             //reservation = null
         ),
@@ -594,7 +597,7 @@ object PanissimoTables {
             num = 43,
             seats = 2,
             restorantname = "Paninissimo",
-            restorantlogo = R.drawable.axel,
+            restorantlogo = R.drawable.panino,
             reserved = false,
             //reservation = null
         ),
@@ -602,7 +605,7 @@ object PanissimoTables {
             num = 44,
             seats = 12,
             restorantname = "Paninissimo",
-            restorantlogo = R.drawable.axel,
+            restorantlogo = R.drawable.panino,
             reserved = false,
             //reservation = null
         ),
@@ -623,7 +626,7 @@ object PanissimoReviews {
         Review(
             user = Users.list[1],
             note = "Pochi panini nel menu, ma coprono tutti i gusti. Qualità accellente",
-            vote = 5,
+            vote = 4,
             img = null,
         ),
         Review(
@@ -633,7 +636,13 @@ object PanissimoReviews {
             img = null,
         ),
         Review(
-            user = Users.list[0],
+            user = Users.list[3],
+            note = "Non c'è niente di meglio di un bel panino",
+            vote = 5,
+            img = null,
+        ),
+        Review(
+            user = Users.list[2],
             note = "Posto piccolo, ambiente familiare. Cibo sempre fresco e di qualità. Panini belli grandi. Ho molto apprezzato il panino vegetariano con le melanzane fritte!",
             vote = 5,
             img = null,
@@ -772,6 +781,12 @@ object BettolaCinghialeContentoReviews {
             img = null,
         ),
         Review(
+            user = Users.list[3],
+            note = "Perchè un corvo somiglia a una scrivania?",
+            vote = 4,
+            img = null,
+        ),
+        Review(
             user = Users.list[0],
             note = "Cibo molto buono. Servizio un po lento. Tornerò volentieri",
             vote = 4,
@@ -864,8 +879,8 @@ object RestorantList{
         Restorant(
             name ="Pizzeria da ciro",
             tipo = "Pizzeria",
-            via = "via bella napoli 34",
-            logo = R.drawable.muzon,
+            via = "via Napoli 34",
+            logo = R.drawable.ciro,
             card_img = R.drawable.pizza,
             menu = MenuPizzeriaCiro.list,
             reviews = PizzeriaCiroReviews.list,
@@ -875,7 +890,7 @@ object RestorantList{
         Restorant(
             name ="Il picchio rosso",
             tipo = "Trattoria",
-            via = "via ascoli 47",
+            via = "via daqui 47",
             logo = R.drawable.picchio,
             card_img = R.drawable.carbo,
             menu = MenuTrattoriaPicchioRosso.list,
@@ -887,8 +902,8 @@ object RestorantList{
         Restorant(
             name ="Il tagliere volante",
             tipo = "Ristorante",
-            via = "via fonti del clitunno 66",
-            logo = R.drawable.muzon,
+            via = "via Roma 10",
+            logo = R.drawable.tv,
             card_img = R.drawable.tagliere,
             menu = MenuRistoranteTagliereVolante.list,
             reviews = RistoranteTagliereVolanteReviews.list,
@@ -901,7 +916,7 @@ object RestorantList{
             name ="Paninissimo",
             tipo = "Paninoteca",
             via = "via corta 1",
-            logo = R.drawable.axel,
+            logo = R.drawable.panino,
             card_img = R.drawable.paninoteca,
             menu = MenuPanissimo.list,
             reviews = PanissimoReviews.list,
@@ -913,7 +928,7 @@ object RestorantList{
         Restorant(
             name ="Il cinghiale contento",  
             tipo = "Osteria",
-            via = "via niso 4",
+            via = "via stretta 4",
             logo = R.drawable.cinghiale,
             card_img = R.drawable.bistecca,
             menu = MenuBettolaCinghialeContento.list,

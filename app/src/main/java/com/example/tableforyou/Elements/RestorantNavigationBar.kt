@@ -35,7 +35,7 @@ fun RestorantNavigationBar(
         NavigationBarItem(
             icon = {
                 Row() {
-                    Text("Reserve a Table")
+                    Text("Reserve Table")
                     //Icons.Rounded.ArrowDropDown
                 }
             },

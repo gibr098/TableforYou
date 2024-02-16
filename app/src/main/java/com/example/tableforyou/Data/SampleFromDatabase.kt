@@ -65,7 +65,7 @@ class MyData {
             .database("https://tableforyou-f235e-default-rtdb.europe-west1.firebasedatabase.app/")
             .reference
 
-        var user = User(name,mail,profile_img)
+        val user = User(name,mail,profile_img)
 
         database.child("USERS").child(child).setValue(user)
 

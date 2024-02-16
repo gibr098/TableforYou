@@ -227,7 +227,7 @@ fun TabledropdownMenu(
             //DATA = "$date At $time"
             Spacer(modifier = Modifier.padding(all = 30.dp))
             Button(
-                onClick = { showReservationResult = true; confirmReservation(tab, data); changeView() }, // =true}
+                onClick = { showReservationResult = true; confirmReservation(tab, data);  }, // =true}
                 //onClick = { confirmReservation(tab,"$date At $time"); showReservationResult = true; DATA = "" },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -239,7 +239,7 @@ fun TabledropdownMenu(
             if (showReservationResult) {
                 if (confirmed) {
                     ReservationResultDialog(
-                        onConfirmation = { showReservationResult = false },
+                        onConfirmation = { showReservationResult = false; changeView()},
                     )
                 } else {
                     ReservationResultDialog2(
@@ -466,7 +466,7 @@ fun ReservationResultDialog(
                 AlertDialogExample(
                     onDismissRequest = { },
                     onConfirmation = onConfirmation,
-                    dialogTitle = "Table Reserved Successfully",
+                    dialogTitle = "Table Reserved!",
                     dialogText = "Thank you! Your reservation has been registered, you can find it in the" +
                             "Reservation section",
                     icon = Icons.Default.InsertInvitation

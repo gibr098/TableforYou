@@ -31,7 +31,6 @@ import com.example.tableforyou.ui.theme.TableforYouTheme
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -142,6 +141,7 @@ class EmailPasswordActivity : ComponentActivity() {
                            EmailPasswordActivity().baseContext.startActivity(intent)},
                    createAccount = {
                        this.CreateAccount(mail, password) ; password=""
+                       /*
                        val profileUpdates = userProfileChangeRequest {
                            displayName = name
                            photoUri = Profileimg
@@ -151,11 +151,11 @@ class EmailPasswordActivity : ComponentActivity() {
                                if (task.isSuccessful) {
                                    Log.d(TAG, "User profile updated.")
                                }
-                           }
+                           }*/
                        MyData().writeUser(name, mail, profileimage, name)
 
                                    },
-                   SignOUT = { password="";profileimage = defaultimg; signOut()},
+                   SignOUT = { password=""; profileimage = defaultimg; signOut()},
                    pickPhoto={ pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo)); }
 
                    )
