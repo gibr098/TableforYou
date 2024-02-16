@@ -30,9 +30,9 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import com.example.tableforyou.Data.RISTORANTI.RISTORANTIDADB
 import com.example.tableforyou.Data.Restorant
-import com.example.tableforyou.Elements.FavoriteButton
 import com.example.tableforyou.Elements.RestorantRankStars
 import com.example.tableforyou.Elements.SearchBar
+import com.example.tableforyou.Elements.StatefulCounter
 
 
 @Composable
@@ -65,7 +65,10 @@ fun Restorants(
     addToFavorite: (Restorant)-> Unit,
     removeFromFavorite: (Restorant) -> Unit
     ) {
-    LazyColumn {
+    LazyColumn(
+        //state = rememberLazyListState(),
+    ) {
+
         items(restorant) { restorant ->
             RestorantCard(Modifier ,restorant, onClickOpenRestorant,addToFavorite,removeFromFavorite)
 
@@ -118,8 +121,14 @@ fun RestorantCard(
                                 .height(150.dp)
                                 .fillMaxWidth()
                         )
+                        /*
                         FavoriteButton(
                             res,
+                            addToFavorite = addToFavorite,
+                            removeFromFavorite = removeFromFavorite
+                        )*/
+                        StatefulCounter(
+                            res = res,
                             addToFavorite = addToFavorite,
                             removeFromFavorite = removeFromFavorite
                         )

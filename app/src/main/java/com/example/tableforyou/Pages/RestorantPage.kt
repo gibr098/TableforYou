@@ -317,45 +317,8 @@ fun MenuItem(plate: Plate){//, table_is_active: Boolean){
             fontSize =20.sp,
             //textAlign = TextAlign.Right
         )
-        if(false){ //table_is_active) {
-            StatefulCounter()
-
-
-        }
-    }
-}
-
-@Composable
-fun StatelessCounter(count: Int,onIncrement: () -> Unit, onDecrement: () -> Unit, modifier: Modifier){
-    Row {
-        Button(
-            onClick = onDecrement,
-            modifier = Modifier.size(20.dp),
-            shape = RectangleShape,
-            contentPadding = PaddingValues(0.dp)
-        ) {
-            Text("-")
-        }
-        Text(
-            "$count",
-            fontSize = 20.sp
-        )
-        Button(
-            onClick = onIncrement,
-            modifier = Modifier.size(20.dp),
-            shape = RectangleShape,
-            contentPadding = PaddingValues(0.dp)
-        ) {
-            Text("+")
-        }
 
     }
-}
-
-@Composable
-fun StatefulCounter(modifier: Modifier = Modifier) {
-    var count by rememberSaveable { mutableStateOf(0) }
-    StatelessCounter(count, { count++ }, {count--}, modifier)
 }
 
 

@@ -10,7 +10,7 @@ data class User(
     val profile_img: String = "",
     val preferred: MutableList<Restorant> = mutableListOf(),
     val reservations: MutableList<Reservation> = mutableListOf(),
-    val reviews: List<Review> = listOf()
+    val reviews: List<Review> = listOf(),
 )
 
 

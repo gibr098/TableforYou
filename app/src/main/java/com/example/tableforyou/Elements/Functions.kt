@@ -5,6 +5,7 @@ import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Data.Review
 import com.example.tableforyou.Data.User
 
+
 fun computerank1(restorant: Restorant)  {
     var rank = 0
     for (review in restorant.reviews) {
@@ -54,3 +55,7 @@ fun addPhoto() {
 
 
 }*/
+
+
+
+

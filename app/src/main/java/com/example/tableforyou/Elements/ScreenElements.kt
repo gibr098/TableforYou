@@ -33,7 +33,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Data.Review
-import com.example.tableforyou.Data.UTENTIDADB
 
 
 @Composable
@@ -66,11 +65,37 @@ fun BackButton() {
         )
     }
 }
+@Composable
+fun StatelessCounter(press: Boolean, onAdd: ()-> Unit){
+    Row {
+        Button(
+            onClick = onAdd,
+            modifier = Modifier.size(20.dp),
+            shape = RectangleShape,
+            contentPadding = PaddingValues(0.dp),
+            enabled = press
+        ){
 
+        }
+    }
+}
+
+
+@Composable
+fun StatefulCounter(
+    res: Restorant,
+    addToFavorite: (Restorant)-> Unit,
+    removeFromFavorite: (Restorant) -> Unit
+) {
+    var press by rememberSaveable { mutableStateOf(false) }
+    //StatelessCounter(press, { press = !press })
+    FavoriteButton(res = res, addToFavorite = addToFavorite, removeFromFavorite = removeFromFavorite, pressed = press)
+}
 
 @Composable
 fun FavoriteButton(
     res: Restorant,
+    pressed: Boolean,
     addToFavorite: (Restorant)-> Unit,
     removeFromFavorite: (Restorant) -> Unit
 ) {
@@ -80,7 +105,8 @@ fun FavoriteButton(
 
 
 
-    var pressed by rememberSaveable {mutableStateOf(UTENTIDADB.preferred.contains(res))}
+    //var pressed by rememberSaveable {mutableStateOf(UTENTIDADB.preferred.contains(res))}
+    //var pressed by rememberSaveable { mutableStateOf(false) }
     var contentcol by remember{ mutableStateOf(Color.LightGray) }
     Button(
         onClick =  {
@@ -89,13 +115,13 @@ fun FavoriteButton(
             if(!pressed){
                 contentcol = Color.Red
                 addToFavorite(res)
-                pressed = !pressed
+                //pressed = !pressed
 
 
             }else{
                 contentcol = Color.LightGray
                 removeFromFavorite(res)
-                pressed = !pressed
+                //pressed = !pressed
 
             }
 
