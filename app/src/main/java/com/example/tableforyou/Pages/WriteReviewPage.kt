@@ -91,6 +91,13 @@ fun WriteReviewBox(
             TextButton(onClick = addImage) {
                 Text("Take Image from gallery")
             }
+            if (showReviewResult) {
+                ReviewResultDialog(
+                    onConfirmation = {
+                        showReviewResult = false
+                        onBackClickedRev(restorant.name)
+                    },)
+            }
             TextButton(
                 onClick = {
                     rev = true;
@@ -104,15 +111,12 @@ fun WriteReviewBox(
                     } else if (imageAdded) {
                         UpReviewImg(MainActivity().getImagerev());uri = MainActivity().getImagerev()
                     }
-                    photoTaken = false
-                    imageAdded = false
 
                     val storage = Firebase.storage("gs://tableforyou-f235e.appspot.com")
                     var storageRef = storage.reference
 
-
-
-                    Thread.sleep(3000)
+                    if (photoTaken or imageAdded){
+                        Thread.sleep(3000)
                     storageRef.child("${uri.hashCode()}-Review_img.jpg").downloadUrl.addOnSuccessListener {
                         // Got the download URL for 'users/me/profile.png'
                         Log.w("foto", "foto review downloaded: $it")
@@ -126,21 +130,18 @@ fun WriteReviewBox(
                         )
 
                     }
+                        photoTaken = false
+                        imageAdded = false
+                }
 
-                    //MyData().postReview(text, vote, i, restorant); showReviewResult = true},
+                    MyData().postReview(text, vote, i, restorant); showReviewResult = true
                 },
                 enabled = if( vote == 0 ){false} else {true}
                 ) {
 
                 Text("Confirm")
             }
-            if (showReviewResult) {
-                ReviewResultDialog(
-                    onConfirmation = {
-                        showReviewResult = false
-                        onBackClickedRev(restorant.name)
-                                     },)
-            }
+
 
             if(rev){
                 //var i = CameraActivity().getPhotorev()
