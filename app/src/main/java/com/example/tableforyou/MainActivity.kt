@@ -69,14 +69,6 @@ private lateinit var query: Query
 //lateinit var RISTRORANTIDADB: MutableList<Restorant>
 
 
-/*
-1. USER:
--FAVORITE (pulsante deve rimanere pressed)
--REVIEWS (manca foto)
-
- */
-
-
 class MainActivity : ComponentActivity() {
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService

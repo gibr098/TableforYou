@@ -74,7 +74,7 @@ fun ReservationScreen(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 20.dp),
+            .padding(vertical = 10.dp),
         horizontalArrangement = Arrangement.Center
     ) {
 
@@ -280,7 +280,7 @@ fun DateTimePickerComponent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         //verticalArrangement = Arrangement.Center,
     ) {
@@ -300,8 +300,7 @@ fun DateTimePickerComponent(
                 }
 
 
-
-                //Text(text = time, modifier = Modifier.padding(bottom = 16.dp))
+         //Text(text = time, modifier = Modifier.padding(bottom = 16.dp))
 
                 Button(
                     onClick = {

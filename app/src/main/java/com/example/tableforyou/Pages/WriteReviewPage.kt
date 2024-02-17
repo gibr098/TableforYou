@@ -132,9 +132,10 @@ fun WriteReviewBox(
                     }
                         photoTaken = false
                         imageAdded = false
-                }
 
-                    MyData().postReview(text, vote, i, restorant); showReviewResult = true
+                }else {
+                        MyData().postReview(text, vote, i, restorant); showReviewResult = true
+                    }
                 },
                 enabled = if( vote == 0 ){false} else {true}
                 ) {
