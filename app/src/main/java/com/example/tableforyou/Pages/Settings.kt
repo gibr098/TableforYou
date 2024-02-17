@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -24,18 +26,25 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.tableforyou.Data.UTENTIDADB
 import com.example.tableforyou.Elements.UpBar
+import com.example.tableforyou.Navigation.AboutUs
+import com.example.tableforyou.Navigation.AppDestination
 import com.example.tableforyou.Navigation.Home
+import com.example.tableforyou.Navigation.Profile
 
 @Composable
-fun SettingsScreen(signOut:() -> Unit, SignOUT: ()->Unit){
-    Settings(signOut, SignOUT)
+fun SettingsScreen(signOut:() -> Unit, SignOUT: ()->Unit,gotoAboutUs: (AppDestination)->Unit,gotoProfile: (AppDestination)->Unit){
+    Settings(signOut, SignOUT, gotoAboutUs, gotoProfile)
+
 }
 
 
 @Composable
 fun Settings(
     signOut:() -> Unit,
-    SignOUT: ()->Unit
+    SignOUT: ()->Unit,
+    gotoAboutUs: (AppDestination)->Unit,
+    gotoProfile: (AppDestination)->Unit
+
 ){
         Column(modifier = Modifier.fillMaxSize()) {
             UpBar("Settings", false, onBackClicked = { }, Home)
@@ -85,7 +94,7 @@ fun Settings(
             Spacer(modifier = Modifier.padding(30.dp))
             Column() {
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { gotoProfile(Profile) },
                     shape = RectangleShape,
                     modifier = Modifier.fillMaxWidth(),
                     border = BorderStroke(width = 1.dp, color = Color.Black),
@@ -112,7 +121,7 @@ fun Settings(
                 }
                 Spacer(modifier = Modifier.padding(20.dp))
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { gotoAboutUs(AboutUs) },
                     shape = RectangleShape,
                     modifier = Modifier.fillMaxWidth(),
                     border = BorderStroke(width = 1.dp, color = Color.Black),
@@ -127,12 +136,14 @@ fun Settings(
                 Spacer(modifier = Modifier.padding(20.dp))
                 Button(
                     onClick = signOut ,
-                    shape = RectangleShape,
-                    modifier = Modifier.fillMaxWidth(),
-                    border = BorderStroke(width = 1.dp, color = Color.Black),
+                    shape = RoundedCornerShape(size =20.dp),
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .size(width = 350.dp, height = 50.dp),
+                    //border = BorderStroke(width = 1.dp, color = Color.Black),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.LightGray,
-                        contentColor = Color.Black,
+                        containerColor = Color.Red,
+                        contentColor = Color.White,
                     )
 
                 ) {

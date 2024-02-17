@@ -54,6 +54,16 @@ object Reservations : AppDestination {
     override val route = "Reservations"
     //override val screen: @Composable () -> Unit = { TODO() }
 }
+object AboutUs : AppDestination {
+    //override val icon = Icons.Filled.PieChart
+    override val route = "AboutUs"
+    //override val screen: @Composable () -> Unit = { TODO() }
+}
+object Profile : AppDestination {
+    //override val icon = Icons.Filled.PieChart
+    override val route = "Profile"
+    //override val screen: @Composable () -> Unit = { TODO() }
+}
 
 object LogIn : AppDestination {
     //override val icon = Icons.Filled.PieChart

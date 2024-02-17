@@ -11,6 +11,8 @@ import com.example.tableforyou.Authentication.CreateAccountForm
 import com.example.tableforyou.Authentication.LoginForm
 import com.example.tableforyou.Data.Restorant
 import com.example.tableforyou.Data.Table
+import com.example.tableforyou.Elements.AboutUsPage
+import com.example.tableforyou.Elements.ProfilePage
 import com.example.tableforyou.Pages.FavoriteScreen
 import com.example.tableforyou.Pages.HomeScreen
 import com.example.tableforyou.Pages.ReservationsScreen
@@ -32,7 +34,8 @@ fun AppNavHost(
     addToFavorite: (Restorant)-> Unit,
     removeFromFavorite: (Restorant) -> Unit,
     confirmReservation: (Table, String) -> Unit,
-    UpReviewImg: (Uri)-> Unit
+    UpReviewImg: (Uri)-> Unit,
+
 ){
 
     NavHost(
@@ -126,11 +129,26 @@ fun AppNavHost(
         composable(route = Settings.route) {
             SettingsScreen(
                 signOut= signOut,
-                SignOUT = SignOUT)
+                SignOUT = SignOUT,
+                gotoAboutUs ={newScreen ->
+                    navController.navigateSingleTopTo(newScreen.route)},
+                gotoProfile ={newScreen ->
+                    navController.navigateSingleTopTo(newScreen.route)},
+            )
         }
 
         composable(route = Null.route) {
 
+        }
+        composable(route = AboutUs.route) {
+            AboutUsPage(onBackClicked = {newScreen ->
+                navController.navigateSingleTopTo(newScreen.route)}
+            )
+        }
+        composable(route = Profile.route) {
+            ProfilePage(onBackClicked = {newScreen ->
+                navController.navigateSingleTopTo(newScreen.route)}
+            )
         }
 
         composable(route = LogIn.route) {
@@ -258,11 +276,24 @@ fun AppNavHost2(
         composable(route = Settings.route) {
             SettingsScreen(
                 signOut= SignOUT ,
-                SignOUT = SignOUT)
+                SignOUT = SignOUT,
+                gotoAboutUs = {},
+                gotoProfile = {}
+            )
         }
 
         composable(route = Null.route) {
 
+        }
+        composable(route = AboutUs.route) {
+            AboutUsPage(onBackClicked = {newScreen ->
+                navController.navigateSingleTopTo(newScreen.route)}
+            )
+        }
+        composable(route = Profile.route) {
+            AboutUsPage(onBackClicked = {newScreen ->
+                navController.navigateSingleTopTo(newScreen.route)}
+            )
         }
 
         composable(route = LogIn.route) {
