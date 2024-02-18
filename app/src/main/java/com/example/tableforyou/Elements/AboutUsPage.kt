@@ -29,16 +29,16 @@ fun AboutUsPage(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .padding(all = 80.dp)
+            .padding(all = 50.dp)
     ){
         Image(painter = painterResource(id = R.drawable.logo), contentDescription = "icon")
         Spacer(modifier = Modifier.padding(all = 10.dp))
-        Text("Exam Project of", fontSize = 28.sp, textAlign = TextAlign.Center)
-        Text("Mobile Application", fontSize = 28.sp, textAlign = TextAlign.Center)
-        Text("and", fontSize = 28.sp, textAlign = TextAlign.Center)
-        Text("Cloud Computing", fontSize = 27.sp, textAlign = TextAlign.Center)
-        Text("Course, Year 2024", fontSize = 28.sp, textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.padding(all=20.dp))
+        Text("Exam Project of", fontSize = 25.sp, textAlign = TextAlign.Center)
+        Text("Mobile Application", fontSize = 25.sp, textAlign = TextAlign.Center)
+        Text("and", fontSize = 25.sp, textAlign = TextAlign.Center)
+        Text("Cloud Computing", fontSize = 25.sp, textAlign = TextAlign.Center)
+        Text("Course Year 2024", fontSize = 25.sp, textAlign = TextAlign.Center)
+        Spacer(modifier = Modifier.padding(all=10.dp))
         Text("Project developed by:", fontSize = 21.sp)
         Text("Sirico Giuseppe Gabriele", fontSize = 21.sp)
         Text("matricola 1810153", fontSize = 21.sp)
